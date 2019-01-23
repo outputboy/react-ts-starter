@@ -1,6 +1,7 @@
 {
   "extends": ["tslint-config-airbnb", "tslint-react", "tslint-config-prettier"],
   "rules": {
+    "jsx-no-lambda": false,
     "adjacent-overload-signatures": true,
     "ban-comma-operator": true,
     "class-name": true,
