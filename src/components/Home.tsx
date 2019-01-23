@@ -8,6 +8,7 @@ import { Link } from 'react-router-dom';
 import { snackbarPush } from '../actions';
 import logoSvg from '../assets/logo.svg';
 import routes from '../routes';
+import Login from './login/Login';
 
 type ClassKeys = 'root' | 'header' | 'margin' | 'padding' | 'logo';
 
@@ -76,6 +77,7 @@ class Home extends React.PureComponent<Props & WithStyles<ClassKeys>> {
             {this.props.title}
           </Typography>
         </div>
+        <Login />
         <Typography className={classes.margin}>
           To get started, edit <code>src/components/App.tsx</code> and save to reload.
         </Typography>
