@@ -6,6 +6,7 @@ import Home from './Home';
 import NotFound from './NotFound';
 import Test from './Test';
 import TheSnackbar from './TheSnackbar';
+import Products from './products/Products';
 
 type ClassKeys = 'root';
 
@@ -30,6 +31,7 @@ class App extends React.Component<Props & WithStyles<ClassKeys>> {
           <Switch>
             <Route exact path={routes.home} component={Home} />
             <Route path={routes.test} component={Test} />
+            <Route path={routes.products} component={Products} />
             <Route component={NotFound} />
           </Switch>
         </main>

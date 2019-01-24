@@ -22,19 +22,17 @@ class Login extends React.Component<LoginPropsInterface, LoginInterface> {
   }
 
   render() {
-    console.log(this.props);
     return (
       <form>
         Username: <input type="text" name={'username'} onChange={this.onChange} />
         <br />
         Password: <input type="text" name={'password'} onChange={this.onChange} />
         <br />
-        <NavLink to="/test">
+        <NavLink to="/products">
           <input
             type="submit"
             value="Submit"
-            onClick={(e) => {
-              e.preventDefault();
+            onClick={() => {
               if (this.props.fetchLogin) {
                 this.props.fetchLogin({ username: this.state.username, password: this.state.password });
               }
@@ -46,8 +44,8 @@ class Login extends React.Component<LoginPropsInterface, LoginInterface> {
   }
 }
 
-const mapStateToProps = ({}) => {
-  return {};
+const mapStateToProps = (store: any) => {
+  return { loginDetails: store.loginDetails };
 };
 
 const mapDispatchToProps = (dispatch: Dispatch) => bindActionCreators({ fetchLogin }, dispatch);
