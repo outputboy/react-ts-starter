@@ -1,6 +1,7 @@
 {
   "extends": ["tslint-config-airbnb", "tslint-react", "tslint-config-prettier"],
   "rules": {
+    "no-parameter-reassignment": false,
     "jsx-no-lambda": false,
     "adjacent-overload-signatures": true,
     "ban-comma-operator": true,
@@ -24,7 +25,7 @@
         "order": "statics-first"
       }
     ],
-    "no-any": true,
+    "no-any": false,
     "no-arg": true,
     "no-bitwise": true,
     "no-conditional-assignment": true,
