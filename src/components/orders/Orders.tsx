@@ -1,32 +1,32 @@
 /**
- * Products.tsx
- * Products component.
+ * Orders.tsx
+ * Orders component.
  */
 'use strict';
 
 // Import the dependent modules
 import * as React from 'react';
+import { PaypalExpressBtn } from 'react-paypal-express-checkout';
 import { connect } from 'react-redux';
 
 // Import the dependent components
 import { RequestType } from '../../utils/api/Api.enum';
-import ProductSingle from './ProductSingle';
 
 // Import the dependent interfaces
 import {
-  ProductsDataInterface,
-  ProductsFieldInterface,
-  ProductsPropsInterface,
-  ProductsStateInterface,
-} from './Products.interface';
+  OrdersDataInterface,
+  OrdersFieldInterface,
+  OrdersPropsInterface,
+  OrdersStateInterface,
+} from './Orders.interface';
 const base64 = require('base-64');
 
-class Products extends React.Component<ProductsPropsInterface, ProductsStateInterface> {
-  constructor(props: ProductsPropsInterface) {
+class Orders extends React.Component<OrdersPropsInterface, OrdersStateInterface> {
+  constructor(props: OrdersPropsInterface) {
     super(props);
 
     this.state = {
-      productsFields: {
+      ordersData: {
         rows: [],
         pager: {
           current_page: 0,
@@ -35,56 +35,53 @@ class Products extends React.Component<ProductsPropsInterface, ProductsStateInte
           total_pages: 0,
         },
       },
+      paymentTotal: 0,
+      orderId: [],
     };
-    this.fetchProducts = this.fetchProducts.bind(this);
   }
 
-  // Fetch products data
+  // import { APIModel } from '../../utils/api/Api.model';
+  // fetch products data
   componentWillMount() {
-    this.fetchProducts();
-  }
-
-  // Fetch products based on search keywords
-  fetchProducts() {
     if (this.props.loginDetails) {
-      console.log(this.props.loginDetails);
       const myHeaders = new Headers();
       const loginDetails = `${this.props.loginDetails.username}:${this.props.loginDetails.password}`;
       const encodeLogin = `Basic ${base64.encode(loginDetails)}`;
 
       myHeaders.append('Content-Type', 'application/json');
       myHeaders.append('Authorization', encodeLogin);
-
       // Request products
-      fetch(`${RequestType.URL}/products`, {
+      fetch(`${RequestType.URL}/orders`, {
         method: 'GET',
         headers: myHeaders,
       })
         .then((response) => response.json())
-        .then((data: ProductsFieldInterface) => {
-          this.setState({ productsFields: data });
-        })
+        .then((data: OrdersFieldInterface) => this.setState({ ordersData: data }))
         .catch((error) => console.log(error));
     }
   }
 
   // render all product card
   render() {
+    const client = {
+      sandbox: 'AZqvl7HJY7zdbBvSKSC8w_maxKHtpzMxshJojXjC99gNSm4poFftarulDlFkpVjYqe_zD9VVmoP4CMYw',
+      production: 'YOUR-PRODUCTION-APP-ID',
+    };
     return (
       <div className="container">
         <div className="row">
           <div className="col m9 s12">
-            <div className="row block--product">
-              {this.state.productsFields.rows.map((product: ProductsDataInterface, key: number) => {
+            <div className="block--orders collection">
+              {this.state.ordersData.rows.map((order: OrdersDataInterface, key: number) => {
                 return (
-                  <div key={key} className="block block--product card-panel">
-                    <ProductSingle
-                      product={product}
-                      username={this.props.loginDetails ? this.props.loginDetails.username : ''}
-                    />
+                  <div key={key} className="block block--single-order collection-item">
+                    <div>{order.order_id}</div>
                   </div>
                 );
               })}
+            </div>
+            <div className="col m4 s12 offset-m8">
+              <PaypalExpressBtn env={'sandbox'} client={client} currency={'AUD'} total={this.state.paymentTotal} />
             </div>
           </div>
         </div>
@@ -97,4 +94,4 @@ const mapStateToProps = (store: any) => {
   return { loginDetails: store.loginDetails };
 };
 
-export default connect(mapStateToProps)(Products);
+export default connect(mapStateToProps)(Orders);
