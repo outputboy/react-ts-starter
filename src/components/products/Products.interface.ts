@@ -4,6 +4,7 @@
 'use strict';
 
 import { PagerData } from '../../utils/pager/Pager.interface';
+import { LoginInterface } from '../login/Login.interface';
 
 /**
  * Single products properties interface.
@@ -27,7 +28,9 @@ export interface ProductsFieldInterface {
 /**
  * Products properties interface.
  */
-export interface ProductsPropsInterface {}
+export interface ProductsPropsInterface {
+  loginDetails?: LoginInterface;
+}
 
 /**
  * Products state interface.
@@ -41,6 +44,7 @@ export interface ProductsStateInterface {
  */
 export interface ProductSinglePropsInterface {
   product: ProductsDataInterface;
+  username: string;
 }
 
 /**
@@ -48,19 +52,4 @@ export interface ProductSinglePropsInterface {
  */
 export interface ProductSingleStateInterface {
   value: string;
-  copied: boolean;
-}
-
-/**
- * Product search props interface.
- */
-export interface ProductsSearchPropsInterface {
-  fetchProducts: Function;
-}
-
-/**
- * Product search state interface.
- */
-export interface ProductsSearchStateInterface {
-  keywords: string;
 }
