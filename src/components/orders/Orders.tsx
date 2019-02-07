@@ -6,7 +6,6 @@
 
 // Import the dependent modules
 import * as React from 'react';
-import { PaypalExpressBtn } from 'react-paypal-express-checkout';
 import { connect } from 'react-redux';
 
 // Import the dependent components
@@ -45,28 +44,69 @@ class Orders extends React.Component<OrdersPropsInterface, OrdersStateInterface>
   componentWillMount() {
     if (this.props.loginDetails) {
       const myHeaders = new Headers();
-      const loginDetails = `${this.props.loginDetails.username}:${this.props.loginDetails.password}`;
+      // const loginDetails = `${this.props.loginDetails.username}:${this.props.loginDetails.password}`;
+      const loginDetails = '306380373:123456';
       const encodeLogin = `Basic ${base64.encode(loginDetails)}`;
+
+      /*
+      const myBody = {
+        order: {
+          type: 'default',
+          email: '306380373@qq.com',
+          store: 1, // optional. Store ID. Defaults to the default store in the system.
+          field_name: 'value', // optional. Any additional order field value.
+          order_items: [
+            {
+              type: 'default',
+              title: '',
+              quantity: 2,
+              purchased_entity: { sku: 'test-product-02' },
+            },
+          ],
+        },
+        profile: [{ type: 'customer', status: 'FALSE', filed_name: 'value' }],
+        user: {
+          mail: '306380373@qq.com',
+        },
+        payment: {
+          gateway: 'paypal_test',
+          type: 'paypal_ec',
+          details: {
+            type: 'single',
+            data: {
+              intent: 'sale',
+            },
+          },
+        },
+      };
+      */
+      const myBody = {
+        gateway: 'paypal_test',
+        type: 'paypal_ec',
+        details: {
+          type: 'single',
+          data: {
+            intent: 'sale',
+          },
+        },
+      };
 
       myHeaders.append('Content-Type', 'application/json');
       myHeaders.append('Authorization', encodeLogin);
       // Request products
-      fetch(`${RequestType.URL}/orders`, {
-        method: 'GET',
+      fetch(`${RequestType.URL}/commerce/payment/capture/86/15`, {
+        method: 'POST',
         headers: myHeaders,
+        body: JSON.stringify(myBody),
       })
         .then((response) => response.json())
-        .then((data: OrdersFieldInterface) => this.setState({ ordersData: data }))
+        .then((data: OrdersFieldInterface) => console.log(data))
         .catch((error) => console.log(error));
     }
   }
 
   // render all product card
   render() {
-    const client = {
-      sandbox: 'AZqvl7HJY7zdbBvSKSC8w_maxKHtpzMxshJojXjC99gNSm4poFftarulDlFkpVjYqe_zD9VVmoP4CMYw',
-      production: 'YOUR-PRODUCTION-APP-ID',
-    };
     return (
       <div className="container">
         <div className="row">
@@ -79,9 +119,6 @@ class Orders extends React.Component<OrdersPropsInterface, OrdersStateInterface>
                   </div>
                 );
               })}
-            </div>
-            <div className="col m4 s12 offset-m8">
-              <PaypalExpressBtn env={'sandbox'} client={client} currency={'AUD'} total={this.state.paymentTotal} />
             </div>
           </div>
         </div>

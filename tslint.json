@@ -9,7 +9,7 @@
     "class-name": true,
     "cyclomatic-complexity": true,
     "forin": true,
-    "import-blacklist": [true, "@material-ui/core", "@material-ui/icons", "lodash", "rxjs"],
+    "import-blacklist": [true, "@material-ui/core", "@material-ui/icons", "rxjs"],
     "import-name": [
       true,
       { "classnames": "classNames", "propTypes": "PropTypes", "react": "React", "reactDom": "ReactDOM" }
@@ -35,7 +35,6 @@
     "no-empty": true,
     "no-floating-promises": true,
     "no-for-in-array": true,
-    "no-implicit-dependencies": [true, "dev"],
     "no-inferrable-types": true,
     "no-namespace": true,
     "no-object-literal-type-assertion": true,

@@ -3,6 +3,7 @@
  */
 'use strict';
 
+import { RouteProps } from 'react-router';
 import { PagerData } from '../../utils/pager/Pager.interface';
 import { LoginInterface } from '../login/Login.interface';
 
@@ -28,7 +29,7 @@ export interface ProductsFieldInterface {
 /**
  * Products properties interface.
  */
-export interface ProductsPropsInterface {
+export interface ProductsPropsInterface extends RouteProps {
   loginDetails?: LoginInterface;
 }
 
