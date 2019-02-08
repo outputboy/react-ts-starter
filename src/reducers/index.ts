@@ -10,7 +10,7 @@ interface State {
 const reducers = combineReducers({
   snackbar: snackbarReducers,
   loginDetails: loginReducer,
-  cartDetails: cartReducer,
+  cart: cartReducer,
 });
 
 export type StoreState = State;

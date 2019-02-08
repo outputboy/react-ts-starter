@@ -7,6 +7,7 @@
 // Import the dependent modules
 import * as React from 'react';
 import { connect } from 'react-redux';
+import { Link } from 'react-router-dom';
 
 // Import the dependent components
 import { RequestType } from '../../utils/api/Api.enum';
@@ -84,6 +85,9 @@ class Products extends React.Component<ProductsPropsInterface, ProductsStateInte
                   </div>
                 );
               })}
+            </div>
+            <div className="row">
+              <Link to="/cart">Go to cart</Link>
             </div>
           </div>
         </div>

@@ -11,7 +11,8 @@ import { connect } from 'react-redux';
 import { Dispatch, bindActionCreators } from 'redux';
 
 // Import interface
-import { FetchCartData, fetchCart } from '../../actions/cartActions';
+import { fetchCart } from '../../actions/cartActions';
+import { CartDataInterface } from '../cart/Cart.interface';
 import { ProductSinglePropsInterface, ProductSingleStateInterface, ProductsDataInterface } from './Products.interface';
 
 class ProductSingle extends React.Component<ProductSinglePropsInterface, ProductSingleStateInterface> {
@@ -20,10 +21,27 @@ class ProductSingle extends React.Component<ProductSinglePropsInterface, Product
   }
 
   addToCart() {
-    const cart: Array<ProductsDataInterface> = this.props.cart;
-    cart.push(this.props.product);
+    const cart: Array<CartDataInterface> = this.props.cart;
+    const product: ProductsDataInterface = this.props.product;
+    // Find if product already exist in cart
+    if (
+      cart.some((el) => {
+        return el.variation_id === product.variation_id;
+      })
+    ) {
+      // If product exist in cart then add to qty and price
+      cart.map((singleCart: CartDataInterface, key: number) => {
+        if (singleCart.variation_id === this.props.product.variation_id) {
+          cart[key].singleQty = cart[key].singleQty + 1;
+          cart[key].singleTotal = cart[key].singleTotal + Number(this.props.product.price__number);
+        }
+      });
+    } else {
+      // If product not exist then push new product row
+      cart.push({ ...this.props.product, singleQty: 1, singleTotal: Number(this.props.product.price__number) });
+    }
 
-    const payload: FetchCartData = { cart };
+    const payload = { cart };
 
     if (this.props.fetchCart) {
       this.props.fetchCart(payload);
@@ -49,7 +67,8 @@ class ProductSingle extends React.Component<ProductSinglePropsInterface, Product
 }
 
 const mapStateToProps = (store: any) => {
-  return { loginDetails: store.loginDetails, cart: store.cartDetails.cart };
+  console.log(store);
+  return { loginDetails: store.loginDetails, cart: store.cart.cart };
 };
 
 const mapDispatchToProps = (dispatch: Dispatch) => bindActionCreators({ fetchCart }, dispatch);

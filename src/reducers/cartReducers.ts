@@ -1,9 +1,10 @@
-import { FetchCart, FetchCartData } from '../actions/cartActions';
+import { FetchCart } from '../actions/cartActions';
+import { CartDataInterface } from '../components/cart/Cart.interface';
 import { CartActionType } from '../types/ActionType';
 
-export const initialState: FetchCartData = { cart: [] };
+export const initialState: { cart: CartDataInterface[] } = { cart: [] };
 
-export const cartReducer = (state: FetchCartData = initialState, action: FetchCart) => {
+export const cartReducer = (state: { cart: CartDataInterface[] } = initialState, action: FetchCart) => {
   switch (action.type) {
     // Add a product to cart
     case CartActionType.FETCH_CART:
@@ -13,13 +14,10 @@ export const cartReducer = (state: FetchCartData = initialState, action: FetchCa
       };
     //
     case CartActionType.FETCH_DELETE_CART_PRODUCT:
-      if (action.payload.index) {
-        return {
-          ...state,
-          cart: [...state.cart.slice(0, action.payload.index), ...state.cart.slice(action.payload.index + 1)],
-        };
-      }
-      break;
+      return {
+        ...state,
+        cart: action.payload.cart,
+      };
     default:
       return state;
   }
