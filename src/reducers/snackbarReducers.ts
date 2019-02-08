@@ -1,6 +1,6 @@
 import { Reducer } from 'redux';
 import { AppAction } from '../actions';
-import ActionType from '../types/ActionType';
+import { ActionType } from '../types/ActionType';
 import SnackbarItem from '../types/SnackbarItem';
 import isSnackbarAction from '../utils/isSnackbarAction';
 

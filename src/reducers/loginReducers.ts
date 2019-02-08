@@ -1,6 +1,6 @@
 import { FetchLogin } from '../actions/loginActions';
 import { LoginInterface } from '../components/login/Login.interface';
-import ActionType from '../types/ActionType';
+import { ActionType } from '../types/ActionType';
 
 export const initialState: LoginInterface = { username: '', password: '' };
 

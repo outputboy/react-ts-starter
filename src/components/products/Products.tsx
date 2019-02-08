@@ -47,7 +47,6 @@ class Products extends React.Component<ProductsPropsInterface, ProductsStateInte
   // Fetch products based on search keywords
   fetchProducts() {
     if (this.props.loginDetails) {
-      console.log(this.props.loginDetails);
       const myHeaders = new Headers();
       const loginDetails = `${this.props.loginDetails.username}:${this.props.loginDetails.password}`;
       const encodeLogin = `Basic ${base64.encode(loginDetails)}`;

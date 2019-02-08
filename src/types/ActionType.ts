@@ -1,7 +1,13 @@
-enum ActionType {
+export enum ActionType {
   SnackbarPop = 'SNACKBAR/POP',
   SnackbarPush = 'SNACKBAR/PUSH',
-  FETCH_LOGIN = 'FETCH_LOGIN'
+  FETCH_LOGIN = 'FETCH_LOGIN',
 }
 
-export default ActionType;
+export enum CartActionType {
+  FETCH_CART = 'FETCH_CART',
+  FETCH_ADD_CART = 'FETCH_ADD_CART',
+  FETCH_DELETE_CART = 'FETCH_DELETE_CART',
+  FETCH_UPDATE_CART = 'FETCH_UPDATE_CART',
+  FETCH_DELETE_CART_PRODUCT = 'FETCH_DELETE_CART_PRODUCT',
+}

@@ -4,6 +4,7 @@
 'use strict';
 
 import { RouteProps } from 'react-router';
+import { FetchCartData } from '../../actions/cartActions';
 import { PagerData } from '../../utils/pager/Pager.interface';
 import { LoginInterface } from '../login/Login.interface';
 
@@ -44,6 +45,8 @@ export interface ProductsStateInterface {
  * Single product props interface.
  */
 export interface ProductSinglePropsInterface {
+  cart: Array<ProductsDataInterface>;
+  fetchCart?: (payload: FetchCartData) => void;
   product: ProductsDataInterface;
   username: string;
 }
@@ -51,6 +54,4 @@ export interface ProductSinglePropsInterface {
 /**
  * Single product state interface.
  */
-export interface ProductSingleStateInterface {
-  value: string;
-}
+export interface ProductSingleStateInterface {}
