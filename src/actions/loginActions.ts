@@ -2,7 +2,7 @@
 import { action } from 'typesafe-actions';
 
 import { LoginInterface } from '../components/login/Login.interface';
-import ActionType from '../types/ActionType';
+import { ActionType } from '../types/ActionType';
 
 export interface FetchLogin {
   type: ActionType.FETCH_LOGIN;

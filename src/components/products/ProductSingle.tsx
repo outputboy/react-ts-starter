@@ -5,51 +5,47 @@
 
 // Import the dependent modules
 import * as React from 'react';
+import { connect } from 'react-redux';
 
 // Import the dependent interfaces
-import { RequestType } from '../../utils/api/Api.enum';
-import { ProductSinglePropsInterface, ProductSingleStateInterface } from './Products.interface';
+import { Dispatch, bindActionCreators } from 'redux';
+
+// Import interface
+import { fetchCart } from '../../actions/cartActions';
+import { CartDataInterface } from '../cart/Cart.interface';
+import { ProductSinglePropsInterface, ProductSingleStateInterface, ProductsDataInterface } from './Products.interface';
 
 class ProductSingle extends React.Component<ProductSinglePropsInterface, ProductSingleStateInterface> {
   constructor(props: ProductSinglePropsInterface) {
     super(props);
-
-    this.state = { value: this.props.product.sku };
   }
 
-  checkoutOrder() {
-    const userName = this.props.username;
-    const address = {
-      given_name: 'first name',
-      family_name: 'last name',
-      organization: 'address 1',
-      country_code: 'AU',
-      address_line1: 'address 1',
-      locality: 'suburb',
-      administrative_area: 'state',
-      postal_code: 'postcode',
-    };
+  addToCart() {
+    const cart: Array<CartDataInterface> = this.props.cart;
+    const product: ProductsDataInterface = this.props.product;
+    // Find if product already exist in cart
+    if (
+      cart.some((el) => {
+        return el.variation_id === product.variation_id;
+      })
+    ) {
+      // If product exist in cart then add to qty and price
+      cart.map((singleCart: CartDataInterface, key: number) => {
+        if (singleCart.variation_id === this.props.product.variation_id) {
+          cart[key].singleQty = cart[key].singleQty + 1;
+          cart[key].singleTotal = cart[key].singleTotal + Number(this.props.product.price__number);
+        }
+      });
+    } else {
+      // If product not exist then push new product row
+      cart.push({ ...this.props.product, singleQty: 1, singleTotal: Number(this.props.product.price__number) });
+    }
 
-    const orderItems = [
-      {
-        sku: this.props.product.sku,
-        qty: 1,
-      },
-    ];
+    const payload = { cart };
 
-    const myHeaders = new Headers();
-
-    myHeaders.append('Content-Type', 'application/json');
-
-    // Request products
-    fetch(`${RequestType.URL}/drupalup/add_to_order`, {
-      method: 'POST',
-      headers: myHeaders,
-      body: JSON.stringify(orderItems),
-    })
-      .then((response) => response.json())
-      .then((data: any) => console.log(data))
-      .catch((error) => console.log(error));
+    if (this.props.fetchCart) {
+      this.props.fetchCart(payload);
+    }
   }
 
   render() {
@@ -62,7 +58,7 @@ class ProductSingle extends React.Component<ProductSinglePropsInterface, Product
           </div>
           <div className="col s6">{this.props.product.title}</div>
           <div className="col s6">
-            <button onClick={() => this.checkoutOrder()}>Checkout</button>
+            <button onClick={() => this.addToCart()}>AddToCart</button>
           </div>
         </div>
       </React.Fragment>
@@ -70,4 +66,14 @@ class ProductSingle extends React.Component<ProductSinglePropsInterface, Product
   }
 }
 
-export default ProductSingle;
+const mapStateToProps = (store: any) => {
+  console.log(store);
+  return { loginDetails: store.loginDetails, cart: store.cart.cart };
+};
+
+const mapDispatchToProps = (dispatch: Dispatch) => bindActionCreators({ fetchCart }, dispatch);
+
+export default connect(
+  mapStateToProps,
+  mapDispatchToProps,
+)(ProductSingle);

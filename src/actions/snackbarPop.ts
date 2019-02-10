@@ -1,4 +1,4 @@
-import ActionType from '../types/ActionType';
+import { ActionType } from '../types/ActionType';
 
 export interface SnackbarPopAction {
   type: ActionType.SnackbarPop;

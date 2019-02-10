@@ -6,6 +6,9 @@ import Home from './Home';
 import NotFound from './NotFound';
 import Test from './Test';
 import TheSnackbar from './TheSnackbar';
+import Cart from './cart/Cart';
+import Checkout from './checkout/Checkout';
+import Success from './checkout/Success';
 import Orders from './orders/Orders';
 import Products from './products/Products';
 
@@ -34,6 +37,9 @@ class App extends React.Component<Props & WithStyles<ClassKeys>> {
             <Route path={routes.test} component={Test} />
             <Route path={routes.products} component={Products} />
             <Route path={routes.orders} component={Orders} />
+            <Route path={routes.checkout} component={Checkout} />
+            <Route path={routes.success} component={Success} />
+            <Route path={routes.cart} component={Cart} />
             <Route component={NotFound} />
           </Switch>
         </main>

@@ -17,3 +17,15 @@ export interface CheckoutPropsInterface {
 export interface CheckoutStateInterface {
   paymentTotal: number;
 }
+
+/**
+ * Success page props interface.
+ */
+export interface SuccessPropsInterface {}
+
+/**
+ * Success page state interface.
+ */
+export interface SuccessStateInterface {
+  paymentId?: string;
+}
