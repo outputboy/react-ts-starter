@@ -11,7 +11,7 @@
     "forin": true,
     "import-blacklist": [true, "@material-ui/core", "@material-ui/icons", "rxjs"],
     "import-name": [
-      true,
+      false,
       { "classnames": "classNames", "propTypes": "PropTypes", "react": "React", "reactDom": "ReactDOM" }
     ],
     "interface-name": [true, "never-prefix"],
@@ -41,7 +41,7 @@
     "no-reference": true,
     "no-return-await": true,
     "no-shadowed-variable": true,
-    "no-string-literal": true,
+    "no-string-literal": false,
     "no-string-throw": true,
     "no-switch-case-fall-through": true,
     "no-unused-expression": true,

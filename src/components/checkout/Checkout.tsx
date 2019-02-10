@@ -9,6 +9,7 @@ import * as React from 'react';
 import { connect } from 'react-redux';
 
 // Import the dependent components
+import Address from '../../utils/address/Address';
 import { RequestType } from '../../utils/api/Api.enum';
 
 // Import the dependent interfaces
@@ -88,6 +89,7 @@ class Checkout extends React.Component<OrdersPropsInterface, OrdersStateInterfac
                 );
               })}
             </div>
+            <Address />
           </div>
         </div>
       </div>
