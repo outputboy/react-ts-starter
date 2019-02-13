@@ -9,6 +9,7 @@ import { StateType } from './Address.enum';
  * Address interface.
  */
 export interface AddressInterface {
+  field_email: string;
   field_first_name: string;
   field_last_name: string;
   field_address: string;
@@ -21,12 +22,15 @@ export interface AddressInterface {
 /**
  * Address properties interface.
  */
-export interface AddressPropsInterface {}
+export interface AddressPropsInterface {
+  fetchAddress?: (payload: { address: AddressValid }) => void;
+}
 
 /**
  * Address form component error interface.
  */
 interface ErrorInterface {
+  field_email: string;
   field_first_name: string;
   field_last_name: string;
   field_address: string;
@@ -42,8 +46,13 @@ interface ErrorInterface {
 export interface AddressStateInterface extends AddressInterface {
   formErrors: ErrorInterface;
   postcodeValid: boolean;
+  emailValid: boolean;
   notEmptyValid: boolean;
   formValid: boolean;
+}
+
+export interface AddressValid extends AddressInterface {
+  form_valid: boolean;
 }
 
 /**

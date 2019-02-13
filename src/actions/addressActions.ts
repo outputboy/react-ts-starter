@@ -2,12 +2,11 @@
 import { action } from 'typesafe-actions';
 
 import { AddressActionType } from '../types/ActionType';
-import { AddressInterface } from '../utils/address/Address.interface';
+import { AddressValid } from '../utils/address/Address.interface';
 
 export interface FetchAddress {
   type: AddressActionType;
-  payload: { address: AddressInterface };
+  payload: { address: AddressValid };
 }
 
-export const fetchAddress = (payload: { address: AddressInterface }) =>
-  action(AddressActionType.FETCH_ADDRESS, payload);
+export const fetchAddress = (payload: { address: AddressValid }) => action(AddressActionType.FETCH_ADDRESS, payload);

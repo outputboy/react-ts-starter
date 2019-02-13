@@ -11,42 +11,119 @@ import { connect } from 'react-redux';
 // Import the dependent components
 import Address from '../../utils/address/Address';
 import { RequestType } from '../../utils/api/Api.enum';
+import Cart from '../cart/Cart';
 
 // Import the dependent interfaces
-import {
-  OrdersDataInterface,
-  OrdersFieldInterface,
-  OrdersPropsInterface,
-  OrdersStateInterface,
-} from '../orders/Orders.interface';
+import { AddressValid } from '../../utils/address/Address.interface';
+import { CartDataInterface } from '../cart/Cart.interface';
+import { CheckoutPropsInterface, CheckoutStateInterface, IndividualProductOrderInterface } from './Checkout.interface';
 const base64 = require('base-64');
 
-class Checkout extends React.Component<OrdersPropsInterface, OrdersStateInterface> {
-  constructor(props: OrdersPropsInterface) {
-    super(props);
+// const loginDetails = `${this.props.loginDetails.username}:${this.props.loginDetails.password}`;
+const loginDetails = '306380373:123456';
 
-    this.state = {
-      ordersData: {
-        rows: [],
-        pager: {
-          current_page: 0,
-          items_per_page: 0,
-          total_items: '',
-          total_pages: 0,
-        },
-      },
-      paymentTotal: 0,
-      orderId: [],
-    };
+class Checkout extends React.Component<CheckoutPropsInterface, CheckoutStateInterface> {
+  constructor(props: CheckoutPropsInterface) {
+    super(props);
   }
 
   // import { APIModel } from '../../utils/api/Api.model';
   // fetch products data
-  componentWillMount() {
+  submitOrder() {
     if (this.props.loginDetails) {
       const myHeaders = new Headers();
-      // const loginDetails = `${this.props.loginDetails.username}:${this.props.loginDetails.password}`;
-      const loginDetails = '306380373:123456';
+      const encodeLogin = `Basic ${base64.encode(loginDetails)}`;
+
+      const customerInfo: AddressValid | undefined = this.props.address;
+
+      const orderItems: IndividualProductOrderInterface[] = [];
+
+      if (this.props.cart) {
+        this.props.cart.map((cartItem: CartDataInterface, key: number) => {
+          orderItems.push({
+            type: 'default',
+            title: cartItem.title,
+            quantity: cartItem.singleQty,
+            purchased_entity: {
+              sku: cartItem.sku,
+            },
+          });
+        });
+      } else {
+        alert('sorry empty cart');
+      }
+
+      // render all order items
+      if (customerInfo && this.props.cart) {
+        // Check if address form is filled
+        if (customerInfo.form_valid) {
+          const myBody = {
+            order: {
+              type: 'default',
+              email: customerInfo.field_email,
+              store: 1, // optional. Store ID. Defaults to the default store in the system.
+              field_name: 'value', // optional. Any additional order field value.
+              order_items: orderItems,
+            },
+            profile: {
+              type: 'customer',
+              status: 'FALSE',
+              field_name: 'value',
+              address: {
+                given_name: customerInfo.field_first_name,
+                family_name: customerInfo.field_last_name,
+                organization: customerInfo.field_address,
+                country_code: 'AU',
+                address_line1: customerInfo.field_address,
+                locality: customerInfo.field_suburb,
+                administrative_area: customerInfo.field_state,
+                postal_code: customerInfo.field_postcode,
+              },
+            },
+
+            user: {
+              mail: customerInfo.field_email,
+            },
+            payment: {
+              gateway: 'paypal_test',
+              type: 'paypal_ec',
+              details: {
+                type: 'single',
+                data: {
+                  intent: 'sale',
+                },
+              },
+            },
+          };
+          myHeaders.append('Content-Type', 'application/json');
+          myHeaders.append('Authorization', encodeLogin);
+          // Request products
+          fetch(`${RequestType.URL}/commerce/order/create`, {
+            method: 'POST',
+            headers: myHeaders,
+            body: JSON.stringify(myBody),
+          })
+            .then((response) => response.json())
+            .then((data: any) => {
+              if (data.order_id[0].value) {
+                this.processPayment(data.order_id[0].value);
+              } else {
+                alert('Sorry, cannot create order.');
+              }
+            })
+            .catch((error) => console.log(error));
+        } else {
+          alert('Sorry, please fill in the form.');
+        }
+      }
+    }
+  }
+
+  // import { APIModel } from '../../utils/api/Api.model';
+  // fetch products data
+  processPayment(orderId: number) {
+    if (this.props.loginDetails) {
+      const myHeaders = new Headers();
       const encodeLogin = `Basic ${base64.encode(loginDetails)}`;
 
       const myBody = {
@@ -63,13 +140,13 @@ class Checkout extends React.Component<OrdersPropsInterface, OrdersStateInterfac
       myHeaders.append('Content-Type', 'application/json');
       myHeaders.append('Authorization', encodeLogin);
       // Request products
-      fetch(`${RequestType.URL}/commerce/payment/create/83`, {
+      fetch(`${RequestType.URL}/commerce/payment/create/${orderId}`, {
         method: 'POST',
         headers: myHeaders,
         body: JSON.stringify(myBody),
       })
         .then((response) => response.json())
-        .then((data: OrdersFieldInterface) => console.log(data))
+        .then((data: any) => console.log(data))
         .catch((error) => console.log(error));
     }
   }
@@ -81,15 +158,12 @@ class Checkout extends React.Component<OrdersPropsInterface, OrdersStateInterfac
         <div className="row">
           <div className="col m9 s12">
             <div className="block--orders collection">
-              {this.state.ordersData.rows.map((order: OrdersDataInterface, key: number) => {
-                return (
-                  <div key={key} className="block block--single-order collection-item">
-                    <div>{order.order_id}</div>
-                  </div>
-                );
-              })}
+              <Address />
+              <Cart />
             </div>
-            <Address />
+            <div>
+              <button onClick={() => this.submitOrder()}>Submit Order</button>
+            </div>
           </div>
         </div>
       </div>
@@ -98,7 +172,7 @@ class Checkout extends React.Component<OrdersPropsInterface, OrdersStateInterfac
 }
 
 const mapStateToProps = (store: any) => {
-  return { loginDetails: store.loginDetails };
+  return { loginDetails: store.loginDetails, address: store.address.address, cart: store.cart.cart };
 };
 
 export default connect(mapStateToProps)(Checkout);

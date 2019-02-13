@@ -6,9 +6,12 @@
 
 // Import the dependent modules
 import * as React from 'react';
+import { connect } from 'react-redux';
 import Select from 'react-select';
+import { Dispatch, bindActionCreators } from 'redux';
 
 // Import the dependent components.
+import { fetchAddress } from '../../actions/addressActions';
 import Input from '../form/Input';
 
 // Import the dependent interfaces.
@@ -20,6 +23,7 @@ class Address extends React.Component<AddressPropsInterface, AddressStateInterfa
     super(props);
 
     this.state = {
+      field_email: '',
       field_first_name: '',
       field_last_name: '',
       field_address: '',
@@ -28,6 +32,7 @@ class Address extends React.Component<AddressPropsInterface, AddressStateInterfa
       field_postcode: 0,
       field_telephone: 0,
       formErrors: {
+        field_email: '',
         field_first_name: '',
         field_last_name: '',
         field_address: '',
@@ -37,6 +42,7 @@ class Address extends React.Component<AddressPropsInterface, AddressStateInterfa
         field_telephone: '',
       },
       postcodeValid: false,
+      emailValid: false,
       notEmptyValid: false,
       formValid: false,
     };
@@ -59,6 +65,22 @@ class Address extends React.Component<AddressPropsInterface, AddressStateInterfa
       }),
       () => {
         this.validateField(elementName, elementValue);
+        // Update redux store with address form result
+        if (this.props.fetchAddress) {
+          this.props.fetchAddress({
+            address: {
+              field_email: this.state.field_email,
+              field_first_name: this.state.field_first_name,
+              field_last_name: this.state.field_last_name,
+              field_address: this.state.field_address,
+              field_suburb: this.state.field_suburb,
+              field_state: this.state.field_state,
+              field_postcode: this.state.field_postcode,
+              field_telephone: this.state.field_telephone,
+              form_valid: this.state.formValid,
+            },
+          });
+        }
       },
     );
   };
@@ -70,6 +92,7 @@ class Address extends React.Component<AddressPropsInterface, AddressStateInterfa
    */
   validateField = (fieldName: string, value: string) => {
     const fieldValidationErrors = this.state.formErrors;
+    let emailValid = this.state.emailValid;
     let postcodeValid = this.state.postcodeValid;
     let notEmptyValid = this.state.notEmptyValid;
 
@@ -86,9 +109,13 @@ class Address extends React.Component<AddressPropsInterface, AddressStateInterfa
         notEmptyValid = value.length > 0;
         fieldValidationErrors.field_state = notEmptyValid ? '' : 'Please select a subject';
         break;
+      case 'field_email':
+        emailValid = value.match(/^([\w.%+-]+)@([\w-]+\.)+([\w]{2,})$/i) ? true : false;
+        fieldValidationErrors.field_email = emailValid ? '' : 'E-Mail is invalid';
+        break;
       case 'field_postcode':
         postcodeValid = value.match(/\d{4}$/) ? true : false;
-        fieldValidationErrors.field_postcode = postcodeValid ? '' : 'E-Mail is invalid';
+        fieldValidationErrors.field_postcode = postcodeValid ? '' : 'Postcode is invalid';
         break;
       case 'field_telephone':
         notEmptyValid = value.length > 0;
@@ -102,6 +129,7 @@ class Address extends React.Component<AddressPropsInterface, AddressStateInterfa
     this.setState(
       {
         postcodeValid,
+        emailValid,
         notEmptyValid,
         formErrors: fieldValidationErrors,
       },
@@ -112,7 +140,7 @@ class Address extends React.Component<AddressPropsInterface, AddressStateInterfa
   // Validate form
   validateForm = () => {
     this.setState({
-      formValid: this.state.postcodeValid && this.state.notEmptyValid,
+      formValid: this.state.postcodeValid && this.state.notEmptyValid && this.state.emailValid,
     });
   };
 
@@ -123,13 +151,22 @@ class Address extends React.Component<AddressPropsInterface, AddressStateInterfa
 
   // render all product card
   render() {
-    console.log(this.state);
-
     return (
       <div className="container">
         <div className="row">
           <div className="col m9 s12">
             <div className="block--cart collection">
+              <Input
+                type={'text'}
+                title={'eMail Address'}
+                name={'field_email'}
+                value={this.state.field_email}
+                placeholder={'email(Required)'}
+                handleChange={this.handleChange}
+                handleFocusOut={this.handleChange}
+                hasError={this.errorClass(this.state.formErrors.field_email)}
+              />{' '}
+              <div className="block block-errors">{this.state.formErrors.field_email}</div>
               <Input
                 type={'text'}
                 title={'First Name'}
@@ -141,7 +178,6 @@ class Address extends React.Component<AddressPropsInterface, AddressStateInterfa
                 hasError={this.errorClass(this.state.formErrors.field_first_name)}
               />
               <div className="block block-errors">{this.state.formErrors.field_first_name}</div>
-
               <Input
                 type={'text'}
                 title={'Last Name'}
@@ -152,7 +188,6 @@ class Address extends React.Component<AddressPropsInterface, AddressStateInterfa
                 handleFocusOut={this.handleChange}
                 hasError={this.errorClass(this.state.formErrors.field_last_name)}
               />
-
               <div className="block block-errors">{this.state.formErrors.field_last_name}</div>
               <Input
                 type={'text'}
@@ -164,7 +199,6 @@ class Address extends React.Component<AddressPropsInterface, AddressStateInterfa
                 handleFocusOut={this.handleChange}
                 hasError={this.errorClass(this.state.formErrors.field_address)}
               />
-
               <div className="block block-errors">{this.state.formErrors.field_address}</div>
               <Input
                 type={'text'}
@@ -176,7 +210,6 @@ class Address extends React.Component<AddressPropsInterface, AddressStateInterfa
                 handleFocusOut={this.handleChange}
                 hasError={this.errorClass(this.state.formErrors.field_suburb)}
               />
-
               <Select
                 options={stateOptions}
                 onChange={(value: any) => {
@@ -213,4 +246,13 @@ class Address extends React.Component<AddressPropsInterface, AddressStateInterfa
     );
   }
 }
-export default Address;
+const mapStateToProps = (store: any) => {
+  return { address: store.address.address };
+};
+
+const mapDispatchToProps = (dispatch: Dispatch) => bindActionCreators({ fetchAddress }, dispatch);
+
+export default connect(
+  mapStateToProps,
+  mapDispatchToProps,
+)(Address);

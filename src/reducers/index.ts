@@ -1,4 +1,5 @@
 import { combineReducers } from 'redux';
+import { addressReducer } from './addressReducers';
 import { cartReducer } from './cartReducers';
 import { loginReducer } from './loginReducers';
 import snackbarReducers, { SnackbarState } from './snackbarReducers';
@@ -11,6 +12,7 @@ const reducers = combineReducers({
   snackbar: snackbarReducers,
   loginDetails: loginReducer,
   cart: cartReducer,
+  address: addressReducer,
 });
 
 export type StoreState = State;

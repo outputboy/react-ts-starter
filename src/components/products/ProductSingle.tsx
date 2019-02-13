@@ -67,7 +67,6 @@ class ProductSingle extends React.Component<ProductSinglePropsInterface, Product
 }
 
 const mapStateToProps = (store: any) => {
-  console.log(store);
   return { loginDetails: store.loginDetails, cart: store.cart.cart };
 };
 

@@ -2,6 +2,8 @@
  * Interfaces for the orders component.
  */
 'use strict';
+import { AddressValid } from '../../utils/address/Address.interface';
+import { CartDataInterface } from '../cart/Cart.interface';
 import { LoginInterface } from '../login/Login.interface';
 
 /**
@@ -9,6 +11,8 @@ import { LoginInterface } from '../login/Login.interface';
  */
 export interface CheckoutPropsInterface {
   loginDetails?: LoginInterface;
+  address?: AddressValid;
+  cart?: CartDataInterface[];
 }
 
 /**
@@ -16,6 +20,18 @@ export interface CheckoutPropsInterface {
  */
 export interface CheckoutStateInterface {
   paymentTotal: number;
+}
+
+/**
+ * Individal product order item interface post to backend.
+ */
+export interface IndividualProductOrderInterface {
+  type: string;
+  title: string;
+  quantity: number;
+  purchased_entity: {
+    sku: string;
+  };
 }
 
 /**
