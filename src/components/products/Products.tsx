@@ -87,7 +87,7 @@ class Products extends React.Component<ProductsPropsInterface, ProductsStateInte
               })}
             </div>
             <div className="row">
-              <Link to="/cart">Go to cart</Link>
+              <Link to="/checkout">Go to cart</Link>
             </div>
           </div>
         </div>

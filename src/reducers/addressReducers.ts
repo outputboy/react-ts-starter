@@ -1,10 +1,11 @@
 import { FetchAddress } from '../actions/addressActions';
 import { AddressActionType } from '../types/ActionType';
 import { StateType } from '../utils/address/Address.enum';
-import { AddressInterface } from '../utils/address/Address.interface';
+import { AddressValid } from '../utils/address/Address.interface';
 
-export const initialState: { address: AddressInterface } = {
+export const initialState: { address: AddressValid } = {
   address: {
+    field_email: '',
     field_first_name: '',
     field_last_name: '',
     field_address: '',
@@ -12,10 +13,11 @@ export const initialState: { address: AddressInterface } = {
     field_state: StateType.NONE,
     field_postcode: 0,
     field_telephone: 0,
+    form_valid: false,
   },
 };
 
-export const cartReducer = (state: { address: AddressInterface } = initialState, action: FetchAddress) => {
+export const addressReducer = (state: { address: AddressValid } = initialState, action: FetchAddress) => {
   switch (action.type) {
     // Add a product to cart
     case AddressActionType.FETCH_ADDRESS:

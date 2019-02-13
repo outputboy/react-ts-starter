@@ -13,7 +13,6 @@ import { deleteCartProduct } from '../../actions/cartActions';
 
 // Import the dependent interfaces
 import { CartDataInterface, CartPropsInterface, CartStateInterface } from './Cart.interface';
-const base64 = require('base-64');
 
 class Cart extends React.Component<CartPropsInterface, CartStateInterface> {
   constructor(props: CartPropsInterface) {
