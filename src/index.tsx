@@ -5,19 +5,23 @@ import React from 'react';
 import ReactDOM from 'react-dom';
 import { Provider } from 'react-redux';
 import { BrowserRouter } from 'react-router-dom';
+import { PersistGate } from 'redux-persist/integration/react';
 import App from './components/App';
 import registerServiceWorker from './registerServiceWorker';
-import store from './store';
+import configuration from './store';
 import theme from './theme';
 
+const { store, persistor } = configuration();
 ReactDOM.render(
   <Provider store={store}>
-    <BrowserRouter>
-      <MuiThemeProvider theme={theme}>
-        <CssBaseline />
-        <App />
-      </MuiThemeProvider>
-    </BrowserRouter>
+    <PersistGate loading={null} persistor={persistor}>
+      <BrowserRouter>
+        <MuiThemeProvider theme={theme}>
+          <CssBaseline />
+          <App />
+        </MuiThemeProvider>
+      </BrowserRouter>
+    </PersistGate>
   </Provider>,
   document.getElementById('root') as HTMLElement,
 );
