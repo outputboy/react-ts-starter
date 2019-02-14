@@ -25,19 +25,23 @@ class Checkout extends React.Component<SuccessPropsInterface, SuccessStateInterf
   // fetch products data
   componentDidMount() {
     if (location.search) {
-      const parsed = queryString.parse(location.search);
-
       const myHeaders = new Headers();
       // const loginDetails = `${this.props.loginDetails.username}:${this.props.loginDetails.password}`;
       const loginDetails = '306380373:123456';
       const encodeLogin = `Basic ${base64.encode(loginDetails)}`;
 
-      const payID: string = parsed.paymentId;
+      let orderId = '';
+      let paymentId = '';
+
+      if (this.props.paymentInfo) {
+        orderId = this.props.paymentInfo.orderId;
+        paymentId = this.props.paymentInfo.paymentId;
+      }
 
       myHeaders.append('Content-Type', 'application/json');
       myHeaders.append('Authorization', encodeLogin);
       // Request products
-      fetch(`${RequestType.URL}/commerce/payment/capture/${payID}/1`, {
+      fetch(`${RequestType.URL}/commerce/payment/capture/${orderId}/${paymentId}`, {
         method: 'POST',
         headers: myHeaders,
       })
@@ -62,7 +66,8 @@ class Checkout extends React.Component<SuccessPropsInterface, SuccessStateInterf
 }
 
 const mapStateToProps = (store: any) => {
-  return {};
+  console.log(store);
+  return { paymentInfo: store.paymentInfo.paymentInfo };
 };
 
 export default connect(mapStateToProps)(Checkout);

@@ -7,6 +7,8 @@
 // Import the dependent modules
 import * as React from 'react';
 import { connect } from 'react-redux';
+import { Dispatch, bindActionCreators } from 'redux';
+import { fetchPaymentInfo } from '../../actions/paymentInfoActions';
 
 // Import the dependent components
 import Address from '../../utils/address/Address';
@@ -146,7 +148,18 @@ class Checkout extends React.Component<CheckoutPropsInterface, CheckoutStateInte
         body: JSON.stringify(myBody),
       })
         .then((response) => response.json())
-        .then((data: any) => console.log(data))
+        .then((data: any) => {
+          // open paypal page to process payment
+          window.open(data.paypalUrl, '_self');
+          // fetch payment info to store for payment success page
+          if (this.props.fetchPaymentInfo && this.props.paymentInfo) {
+            this.props.fetchPaymentInfo({
+              paymentInfo: { orderId: data.orderId, paymentId: data.paymentId },
+            });
+          } else {
+            alert('Payment cannot be generated');
+          }
+        })
         .catch((error) => console.log(error));
     }
   }
@@ -172,7 +185,17 @@ class Checkout extends React.Component<CheckoutPropsInterface, CheckoutStateInte
 }
 
 const mapStateToProps = (store: any) => {
-  return { loginDetails: store.loginDetails, address: store.address.address, cart: store.cart.cart };
+  return {
+    loginDetails: store.loginDetails,
+    address: store.address.address,
+    cart: store.cart.cart,
+    paymentInfo: store.paymentInfo.paymentInfo,
+  };
 };
 
-export default connect(mapStateToProps)(Checkout);
+const mapDispatchToProps = (dispatch: Dispatch) => bindActionCreators({ fetchPaymentInfo }, dispatch);
+
+export default connect(
+  mapStateToProps,
+  mapDispatchToProps,
+)(Checkout);

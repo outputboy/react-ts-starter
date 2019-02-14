@@ -13,6 +13,8 @@ export interface CheckoutPropsInterface {
   loginDetails?: LoginInterface;
   address?: AddressValid;
   cart?: CartDataInterface[];
+  paymentInfo?: PaymentInfoInterface;
+  fetchPaymentInfo?: (payload: { paymentInfo: PaymentInfoInterface }) => void;
 }
 
 /**
@@ -37,11 +39,21 @@ export interface IndividualProductOrderInterface {
 /**
  * Success page props interface.
  */
-export interface SuccessPropsInterface {}
+export interface SuccessPropsInterface {
+  paymentInfo?: PaymentInfoInterface;
+}
 
 /**
  * Success page state interface.
  */
 export interface SuccessStateInterface {
   paymentId?: string;
+}
+
+/**
+ * Payment capture interface.
+ */
+export interface PaymentInfoInterface {
+  orderId: string;
+  paymentId: string;
 }
