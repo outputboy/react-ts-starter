@@ -13,3 +13,7 @@ export enum CartActionType {
 export enum AddressActionType {
   FETCH_ADDRESS = 'FETCH_ADDRESS',
 }
+
+export enum PaymentInfoActionType {
+  FETCH_PAYMENT_INFO = 'FETCH_PAYMENT_INFO',
+}

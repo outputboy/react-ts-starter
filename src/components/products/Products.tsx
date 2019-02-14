@@ -5,22 +5,32 @@
 'use strict';
 
 // Import the dependent modules
+import Button from '@material-ui/core/Button';
 import * as React from 'react';
 import { connect } from 'react-redux';
 import { Link } from 'react-router-dom';
 
+import { APIModel } from '../../utils/api/Api.model';
+
+// Import style
+import Grid from '@material-ui/core/Grid';
+import Paper from '@material-ui/core/Paper';
+
 // Import the dependent components
-import { RequestType } from '../../utils/api/Api.enum';
 import ProductSingle from './ProductSingle';
 
 // Import the dependent interfaces
-import {
-  ProductsDataInterface,
-  ProductsFieldInterface,
-  ProductsPropsInterface,
-  ProductsStateInterface,
-} from './Products.interface';
-const base64 = require('base-64');
+import { ProductsDataInterface, ProductsPropsInterface, ProductsStateInterface } from './Products.interface';
+
+const styles = {
+  root: {
+    flexGrow: 1,
+  },
+  linkStyles: {
+    textDecoration: 'none',
+    color: 'white',
+  },
+};
 
 class Products extends React.Component<ProductsPropsInterface, ProductsStateInterface> {
   constructor(props: ProductsPropsInterface) {
@@ -48,49 +58,49 @@ class Products extends React.Component<ProductsPropsInterface, ProductsStateInte
   // Fetch products based on search keywords
   fetchProducts() {
     if (this.props.loginDetails) {
+      // Init headers
       const myHeaders = new Headers();
-      const loginDetails = `${this.props.loginDetails.username}:${this.props.loginDetails.password}`;
-      const encodeLogin = `Basic ${base64.encode(loginDetails)}`;
 
       myHeaders.append('Content-Type', 'application/json');
-      myHeaders.append('Authorization', encodeLogin);
+
+      const apiData = { method: 'GET' };
 
       // Request products
-      fetch(`${RequestType.URL}/products`, {
-        method: 'GET',
-        headers: myHeaders,
-      })
-        .then((response) => response.json())
-        .then((data: ProductsFieldInterface) => {
+      APIModel.request(APIModel.requestAPI('/products', apiData))
+        .promise.then((data: any) => {
           this.setState({ productsFields: data });
         })
-        .catch((error) => console.log(error));
+        .catch((error: {}) => console.log(error));
     }
   }
 
   // render all product card
   render() {
     return (
-      <div className="container">
-        <div className="row">
-          <div className="col m9 s12">
-            <div className="row block--product">
-              {this.state.productsFields.rows.map((product: ProductsDataInterface, key: number) => {
-                return (
-                  <div key={key} className="block block--product card-panel">
-                    <ProductSingle
-                      product={product}
-                      username={this.props.loginDetails ? this.props.loginDetails.username : ''}
-                    />
-                  </div>
-                );
-              })}
-            </div>
-            <div className="row">
-              <Link to="/checkout">Go to cart</Link>
-            </div>
-          </div>
-        </div>
+      <div style={styles.root}>
+        <Grid container spacing={24}>
+          <Grid item xs={12}>
+            <Paper>
+              <Button variant="contained" color="primary" size="small" style={{ width: '100%' }}>
+                <Link to="/checkout" style={styles.linkStyles}>
+                  {`Go to cart`}
+                </Link>
+              </Button>
+            </Paper>
+          </Grid>
+          {this.state.productsFields.rows.map((product: ProductsDataInterface, key: number) => {
+            return (
+              <Grid item xs={3} key={key}>
+                <Paper>
+                  <ProductSingle
+                    product={product}
+                    username={this.props.loginDetails ? this.props.loginDetails.username : ''}
+                  />
+                </Paper>
+              </Grid>
+            );
+          })}
+        </Grid>
       </div>
     );
   }

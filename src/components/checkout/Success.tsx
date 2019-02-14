@@ -10,11 +10,11 @@ import { connect } from 'react-redux';
 
 // Import the dependent components
 import { RequestType } from '../../utils/api/Api.enum';
+import { APIModel } from '../../utils/api/Api.model';
 
 // Import the dependent interfaces
 import { SuccessPropsInterface, SuccessStateInterface } from './Checkout.interface';
 const base64 = require('base-64');
-const queryString = require('query-string');
 
 class Checkout extends React.Component<SuccessPropsInterface, SuccessStateInterface> {
   constructor(props: SuccessPropsInterface) {
@@ -24,26 +24,30 @@ class Checkout extends React.Component<SuccessPropsInterface, SuccessStateInterf
   // import { APIModel } from '../../utils/api/Api.model';
   // fetch products data
   componentDidMount() {
-    if (location.search) {
-      const parsed = queryString.parse(location.search);
-
+    if (location.search && this.props.loginDetails) {
       const myHeaders = new Headers();
-      // const loginDetails = `${this.props.loginDetails.username}:${this.props.loginDetails.password}`;
-      const loginDetails = '306380373:123456';
+      const loginDetails = `${this.props.loginDetails.username}:${this.props.loginDetails.password}`;
       const encodeLogin = `Basic ${base64.encode(loginDetails)}`;
 
-      const payID: string = parsed.paymentId;
+      let orderId = '';
+      let paymentId = '';
+
+      if (this.props.paymentInfo) {
+        orderId = this.props.paymentInfo.orderId;
+        paymentId = this.props.paymentInfo.paymentId;
+      }
 
       myHeaders.append('Content-Type', 'application/json');
       myHeaders.append('Authorization', encodeLogin);
+
+      const apiData = { method: 'POST', headers: myHeaders };
+
       // Request products
-      fetch(`${RequestType.URL}/commerce/payment/capture/${payID}/1`, {
-        method: 'POST',
-        headers: myHeaders,
-      })
-        .then((response) => response.json())
-        .then((data: any) => console.log(data))
-        .catch((error) => console.log(error));
+      APIModel.request(APIModel.requestAPI(`/commerce/payment/capture/${orderId}/${paymentId}`, apiData))
+        .promise.then((data: any) => {
+          console.log(data);
+        })
+        .catch((error: {}) => console.log(error));
     }
   }
 
@@ -62,7 +66,11 @@ class Checkout extends React.Component<SuccessPropsInterface, SuccessStateInterf
 }
 
 const mapStateToProps = (store: any) => {
-  return {};
+  console.log(store);
+  return {
+    loginDetails: store.loginDetails,
+    paymentInfo: store.paymentInfo.paymentInfo,
+  };
 };
 
 export default connect(mapStateToProps)(Checkout);

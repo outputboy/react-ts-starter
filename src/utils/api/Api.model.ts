@@ -33,7 +33,6 @@ export class APIModel {
         return response as T;
       });
   }
-
   /**
    * Provides a request wrapper supporting the cancellation of promise streams.
    * @method request
