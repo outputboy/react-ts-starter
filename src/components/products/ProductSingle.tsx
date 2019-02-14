@@ -8,12 +8,35 @@ import * as React from 'react';
 import { connect } from 'react-redux';
 
 // Import the dependent interfaces
+import Button from '@material-ui/core/Button';
+import Card from '@material-ui/core/Card';
+import CardActions from '@material-ui/core/CardActions';
+import CardContent from '@material-ui/core/CardContent';
+import Typography from '@material-ui/core/Typography';
+
 import { Dispatch, bindActionCreators } from 'redux';
 
 // Import interface
 import { fetchCart } from '../../actions/cartActions';
 import { CartDataInterface } from '../cart/Cart.interface';
 import { ProductSinglePropsInterface, ProductSingleStateInterface, ProductsDataInterface } from './Products.interface';
+
+const styles = {
+  card: {
+    minWidth: 275,
+  },
+  bullet: {
+    display: 'inline-block',
+    margin: '0 2px',
+    transform: 'scale(0.8)',
+  },
+  title: {
+    fontSize: 14,
+  },
+  pos: {
+    marginBottom: 12,
+  },
+};
 
 class ProductSingle extends React.Component<ProductSinglePropsInterface, ProductSingleStateInterface> {
   constructor(props: ProductSinglePropsInterface) {
@@ -50,18 +73,24 @@ class ProductSingle extends React.Component<ProductSinglePropsInterface, Product
 
   render() {
     return (
-      <React.Fragment>
-        <div className="row">
-          <div className="col s3 grey-text">
-            <h6>{this.props.product.sku}</h6>
-            <h5 className="red-text">${this.props.product.price__number}</h5>
-          </div>
-          <div className="col s6">{this.props.product.title}</div>
-          <div className="col s6">
-            <button onClick={() => this.addToCart()}>AddToCart</button>
-          </div>
-        </div>
-      </React.Fragment>
+      <Card style={styles.card}>
+        <CardContent>
+          <Typography style={styles.title} color="textSecondary" gutterBottom>
+            {this.props.product.sku}
+          </Typography>
+          <Typography variant="h5" component="h2">
+            ${this.props.product.price__number}
+          </Typography>
+          <Typography style={styles.pos} color="textSecondary">
+            {this.props.product.title}
+          </Typography>
+        </CardContent>
+        <CardActions>
+          <Button color="primary" variant="contained" onClick={() => this.addToCart()}>
+            Add To Cart
+          </Button>
+        </CardActions>
+      </Card>
     );
   }
 }

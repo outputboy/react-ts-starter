@@ -5,18 +5,32 @@
 'use strict';
 
 // Import the dependent modules
+import Button from '@material-ui/core/Button';
 import * as React from 'react';
 import { connect } from 'react-redux';
 import { Link } from 'react-router-dom';
 
 import { APIModel } from '../../utils/api/Api.model';
 
+// Import style
+import Grid from '@material-ui/core/Grid';
+import Paper from '@material-ui/core/Paper';
+
 // Import the dependent components
 import ProductSingle from './ProductSingle';
 
 // Import the dependent interfaces
 import { ProductsDataInterface, ProductsPropsInterface, ProductsStateInterface } from './Products.interface';
-const base64 = require('base-64');
+
+const styles = {
+  root: {
+    flexGrow: 1,
+  },
+  linkStyles: {
+    textDecoration: 'none',
+    color: 'white',
+  },
+};
 
 class Products extends React.Component<ProductsPropsInterface, ProductsStateInterface> {
   constructor(props: ProductsPropsInterface) {
@@ -63,33 +77,36 @@ class Products extends React.Component<ProductsPropsInterface, ProductsStateInte
   // render all product card
   render() {
     return (
-      <div className="container">
-        <div className="row">
-          <div className="col m9 s12">
-            <div className="row block--product">
-              {this.state.productsFields.rows.map((product: ProductsDataInterface, key: number) => {
-                return (
-                  <div key={key} className="block block--product card-panel">
-                    <ProductSingle
-                      product={product}
-                      username={this.props.loginDetails ? this.props.loginDetails.username : ''}
-                    />
-                  </div>
-                );
-              })}
-            </div>
-            <div className="row">
-              <Link to="/checkout">Go to cart</Link>
-            </div>
-          </div>
-        </div>
+      <div style={styles.root}>
+        <Grid container spacing={24}>
+          <Grid item xs={12}>
+            <Paper>
+              <Button variant="contained" color="primary" size="small" style={{ width: '100%' }}>
+                <Link to="/checkout" style={styles.linkStyles}>
+                  {`Go to cart`}
+                </Link>
+              </Button>
+            </Paper>
+          </Grid>
+          {this.state.productsFields.rows.map((product: ProductsDataInterface, key: number) => {
+            return (
+              <Grid item xs={3} key={key}>
+                <Paper>
+                  <ProductSingle
+                    product={product}
+                    username={this.props.loginDetails ? this.props.loginDetails.username : ''}
+                  />
+                </Paper>
+              </Grid>
+            );
+          })}
+        </Grid>
       </div>
     );
   }
 }
 
 const mapStateToProps = (store: any) => {
-  console.log(store);
   return { loginDetails: store.loginDetails };
 };
 
