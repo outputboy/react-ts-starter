@@ -40,6 +40,7 @@ export interface IndividualProductOrderInterface {
  * Success page props interface.
  */
 export interface SuccessPropsInterface {
+  loginDetails?: LoginInterface;
   paymentInfo?: PaymentInfoInterface;
 }
 

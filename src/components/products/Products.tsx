@@ -9,17 +9,13 @@ import * as React from 'react';
 import { connect } from 'react-redux';
 import { Link } from 'react-router-dom';
 
+import { APIModel } from '../../utils/api/Api.model';
+
 // Import the dependent components
-import { RequestType } from '../../utils/api/Api.enum';
 import ProductSingle from './ProductSingle';
 
 // Import the dependent interfaces
-import {
-  ProductsDataInterface,
-  ProductsFieldInterface,
-  ProductsPropsInterface,
-  ProductsStateInterface,
-} from './Products.interface';
+import { ProductsDataInterface, ProductsPropsInterface, ProductsStateInterface } from './Products.interface';
 const base64 = require('base-64');
 
 class Products extends React.Component<ProductsPropsInterface, ProductsStateInterface> {
@@ -48,23 +44,19 @@ class Products extends React.Component<ProductsPropsInterface, ProductsStateInte
   // Fetch products based on search keywords
   fetchProducts() {
     if (this.props.loginDetails) {
+      // Init headers
       const myHeaders = new Headers();
-      const loginDetails = `${this.props.loginDetails.username}:${this.props.loginDetails.password}`;
-      const encodeLogin = `Basic ${base64.encode(loginDetails)}`;
 
       myHeaders.append('Content-Type', 'application/json');
-      myHeaders.append('Authorization', encodeLogin);
+
+      const apiData = { method: 'GET' };
 
       // Request products
-      fetch(`${RequestType.URL}/products`, {
-        method: 'GET',
-        headers: myHeaders,
-      })
-        .then((response) => response.json())
-        .then((data: ProductsFieldInterface) => {
+      APIModel.request(APIModel.requestAPI('/products', apiData))
+        .promise.then((data: any) => {
           this.setState({ productsFields: data });
         })
-        .catch((error) => console.log(error));
+        .catch((error: {}) => console.log(error));
     }
   }
 
@@ -97,6 +89,7 @@ class Products extends React.Component<ProductsPropsInterface, ProductsStateInte
 }
 
 const mapStateToProps = (store: any) => {
+  console.log(store);
   return { loginDetails: store.loginDetails };
 };
 

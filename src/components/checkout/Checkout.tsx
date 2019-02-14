@@ -9,10 +9,10 @@ import * as React from 'react';
 import { connect } from 'react-redux';
 import { Dispatch, bindActionCreators } from 'redux';
 import { fetchPaymentInfo } from '../../actions/paymentInfoActions';
+import { APIModel } from '../../utils/api/Api.model';
 
 // Import the dependent components
 import Address from '../../utils/address/Address';
-import { RequestType } from '../../utils/api/Api.enum';
 import Cart from '../cart/Cart';
 
 // Import the dependent interfaces
@@ -20,9 +20,6 @@ import { AddressValid } from '../../utils/address/Address.interface';
 import { CartDataInterface } from '../cart/Cart.interface';
 import { CheckoutPropsInterface, CheckoutStateInterface, IndividualProductOrderInterface } from './Checkout.interface';
 const base64 = require('base-64');
-
-// const loginDetails = `${this.props.loginDetails.username}:${this.props.loginDetails.password}`;
-const loginDetails = '306380373:123456';
 
 class Checkout extends React.Component<CheckoutPropsInterface, CheckoutStateInterface> {
   constructor(props: CheckoutPropsInterface) {
@@ -34,6 +31,7 @@ class Checkout extends React.Component<CheckoutPropsInterface, CheckoutStateInte
   submitOrder() {
     if (this.props.loginDetails) {
       const myHeaders = new Headers();
+      const loginDetails = `${this.props.loginDetails.username}:${this.props.loginDetails.password}`;
       const encodeLogin = `Basic ${base64.encode(loginDetails)}`;
 
       const customerInfo: AddressValid | undefined = this.props.address;
@@ -59,6 +57,10 @@ class Checkout extends React.Component<CheckoutPropsInterface, CheckoutStateInte
       if (customerInfo && this.props.cart) {
         // Check if address form is filled
         if (customerInfo.form_valid) {
+          myHeaders.append('Content-Type', 'application/json');
+          myHeaders.append('Authorization', encodeLogin);
+
+          // construct body info
           const myBody = {
             order: {
               type: 'default',
@@ -67,6 +69,7 @@ class Checkout extends React.Component<CheckoutPropsInterface, CheckoutStateInte
               field_name: 'value', // optional. Any additional order field value.
               order_items: orderItems,
             },
+            // Customer profile and address info
             profile: {
               type: 'customer',
               status: 'FALSE',
@@ -82,7 +85,6 @@ class Checkout extends React.Component<CheckoutPropsInterface, CheckoutStateInte
                 postal_code: customerInfo.field_postcode,
               },
             },
-
             user: {
               mail: customerInfo.field_email,
             },
@@ -97,23 +99,19 @@ class Checkout extends React.Component<CheckoutPropsInterface, CheckoutStateInte
               },
             },
           };
-          myHeaders.append('Content-Type', 'application/json');
-          myHeaders.append('Authorization', encodeLogin);
+
+          const apiData = { method: 'POST', headers: myHeaders, body: JSON.stringify(myBody) };
+
           // Request products
-          fetch(`${RequestType.URL}/commerce/order/create`, {
-            method: 'POST',
-            headers: myHeaders,
-            body: JSON.stringify(myBody),
-          })
-            .then((response) => response.json())
-            .then((data: any) => {
+          APIModel.request(APIModel.requestAPI('/commerce/order/create', apiData))
+            .promise.then((data: any) => {
               if (data.order_id[0].value) {
                 this.processPayment(data.order_id[0].value);
               } else {
                 alert('Sorry, cannot create order.');
               }
             })
-            .catch((error) => console.log(error));
+            .catch((error: {}) => console.log(error));
         } else {
           alert('Sorry, please fill in the form.');
         }
@@ -126,7 +124,11 @@ class Checkout extends React.Component<CheckoutPropsInterface, CheckoutStateInte
   processPayment(orderId: number) {
     if (this.props.loginDetails) {
       const myHeaders = new Headers();
+      const loginDetails = `${this.props.loginDetails.username}:${this.props.loginDetails.password}`;
       const encodeLogin = `Basic ${base64.encode(loginDetails)}`;
+
+      myHeaders.append('Content-Type', 'application/json');
+      myHeaders.append('Authorization', encodeLogin);
 
       const myBody = {
         gateway: 'paypal_test',
@@ -139,16 +141,11 @@ class Checkout extends React.Component<CheckoutPropsInterface, CheckoutStateInte
         },
       };
 
-      myHeaders.append('Content-Type', 'application/json');
-      myHeaders.append('Authorization', encodeLogin);
+      const apiData = { method: 'POST', headers: myHeaders, body: JSON.stringify(myBody) };
+
       // Request products
-      fetch(`${RequestType.URL}/commerce/payment/create/${orderId}`, {
-        method: 'POST',
-        headers: myHeaders,
-        body: JSON.stringify(myBody),
-      })
-        .then((response) => response.json())
-        .then((data: any) => {
+      APIModel.request(APIModel.requestAPI(`/commerce/payment/create/${orderId}`, apiData))
+        .promise.then((data: any) => {
           // open paypal page to process payment
           window.open(data.paypalUrl, '_self');
           // fetch payment info to store for payment success page
@@ -160,7 +157,7 @@ class Checkout extends React.Component<CheckoutPropsInterface, CheckoutStateInte
             alert('Payment cannot be generated');
           }
         })
-        .catch((error) => console.log(error));
+        .catch((error: {}) => console.log(error));
     }
   }
 
