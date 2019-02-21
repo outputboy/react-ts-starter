@@ -12,6 +12,8 @@
     "query-string": "^6.2.0",
     "react": "^16.7.0",
     "react-dom": "^16.7.0",
+    "react-dropzone": "^8.1.0",
+    "react-file-reader": "^1.1.4",
     "react-paypal-express-checkout": "^1.0.5",
     "react-redux": "^6.0.0",
     "react-router": "^4.2.0",
@@ -20,7 +22,8 @@
     "react-select": "^2.3.0",
     "redux": "^4.0.1",
     "redux-persist": "^5.10.0",
-    "typesafe-actions": "^3.0.0"
+    "typesafe-actions": "^3.0.0",
+    "xlsx": "^0.14.1"
   },
   "scripts": {
     "start": "react-scripts start",

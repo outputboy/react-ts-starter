@@ -14,6 +14,7 @@ import Success from './checkout/Success';
 import Home from './home/Home';
 import Orders from './orders/Orders';
 import Products from './products/Products';
+import ProductsImport from './productsImport/ProductsImport';
 
 type ClassKeys = 'root';
 interface DispatchProps {
@@ -61,6 +62,7 @@ class App extends React.Component<Props & WithStyles<ClassKeys>> {
             <Route path={routes.checkout} component={Checkout} />
             <Route path={routes.success} component={Success} />
             <Route path={routes.cart} component={Cart} />
+            <Route path={routes.productsImport} component={ProductsImport} />
             <Route component={NotFound} />
           </Switch>
 
