@@ -11,6 +11,7 @@ import Select from 'react-select';
 import { Dispatch, bindActionCreators } from 'redux';
 
 // Import the dependent components.
+import Typography from '@material-ui/core/Typography';
 import { fetchAddress } from '../../actions/addressActions';
 import Input from '../form/Input';
 
@@ -54,7 +55,7 @@ class Address extends React.Component<AddressPropsInterface, AddressStateInterfa
    * Also validate form input and select.
    *
    */
-  handleChange = (event: FormEventTypeInterface) => {
+  handleChange = (event: React.FormEvent<HTMLInputElement | HTMLSelectElement | HTMLTextAreaElement>) => {
     const elementName: string = event.currentTarget.name;
     const elementValue: string = event.currentTarget.value;
 
@@ -166,7 +167,7 @@ class Address extends React.Component<AddressPropsInterface, AddressStateInterfa
                 handleFocusOut={this.handleChange}
                 hasError={this.errorClass(this.state.formErrors.field_email)}
               />{' '}
-              <div className="block block-errors">{this.state.formErrors.field_email}</div>
+              <Typography color={'error'}>{this.state.formErrors.field_email}</Typography>
               <Input
                 type={'text'}
                 title={'First Name'}
@@ -177,7 +178,7 @@ class Address extends React.Component<AddressPropsInterface, AddressStateInterfa
                 handleFocusOut={this.handleChange}
                 hasError={this.errorClass(this.state.formErrors.field_first_name)}
               />
-              <div className="block block-errors">{this.state.formErrors.field_first_name}</div>
+              <Typography color={'error'}>{this.state.formErrors.field_first_name}</Typography>
               <Input
                 type={'text'}
                 title={'Last Name'}
@@ -188,18 +189,18 @@ class Address extends React.Component<AddressPropsInterface, AddressStateInterfa
                 handleFocusOut={this.handleChange}
                 hasError={this.errorClass(this.state.formErrors.field_last_name)}
               />
-              <div className="block block-errors">{this.state.formErrors.field_last_name}</div>
+              <Typography color={'error'}>{this.state.formErrors.field_last_name}</Typography>
               <Input
                 type={'text'}
                 title={'Address'}
                 name={'field_address'}
                 value={this.state.field_address}
-                placeholder={'First Name(Required)'}
+                placeholder={'Street Address(Required)'}
                 handleChange={this.handleChange}
                 handleFocusOut={this.handleChange}
                 hasError={this.errorClass(this.state.formErrors.field_address)}
               />
-              <div className="block block-errors">{this.state.formErrors.field_address}</div>
+              <Typography color={'error'}>{this.state.formErrors.field_address}</Typography>
               <Input
                 type={'text'}
                 title={'Suburb'}
@@ -216,7 +217,7 @@ class Address extends React.Component<AddressPropsInterface, AddressStateInterfa
                   this.setState({ field_state: value['value'] });
                 }}
               />
-              <div className="block block-errors">{this.state.formErrors.field_state}</div>
+              <Typography color={'error'}>{this.state.formErrors.field_state}</Typography>
               <Input
                 type={'text'}
                 title={'Postcode'}
@@ -227,7 +228,7 @@ class Address extends React.Component<AddressPropsInterface, AddressStateInterfa
                 handleFocusOut={this.handleChange}
                 hasError={this.errorClass(this.state.formErrors.field_postcode)}
               />
-              <div className="block block-errors">{this.state.formErrors.field_postcode}</div>
+              <Typography color={'error'}>{this.state.formErrors.field_postcode}</Typography>
               <Input
                 type={'text'}
                 title={'Telephone'}
@@ -238,7 +239,7 @@ class Address extends React.Component<AddressPropsInterface, AddressStateInterfa
                 handleFocusOut={this.handleChange}
                 hasError={this.errorClass(this.state.formErrors.field_telephone)}
               />
-              <div className="block block-errors">{this.state.formErrors.field_telephone}</div>
+              <Typography color={'error'}>{this.state.formErrors.field_telephone}</Typography>
             </div>
           </div>
         </div>

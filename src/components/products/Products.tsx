@@ -5,7 +5,6 @@
 'use strict';
 
 // Import the dependent modules
-import Button from '@material-ui/core/Button';
 import * as React from 'react';
 import { connect } from 'react-redux';
 import { Link } from 'react-router-dom';
@@ -13,6 +12,7 @@ import { Link } from 'react-router-dom';
 import { APIModel } from '../../utils/api/Api.model';
 
 // Import style
+import Button from '@material-ui/core/Button';
 import Grid from '@material-ui/core/Grid';
 import Paper from '@material-ui/core/Paper';
 
@@ -81,11 +81,11 @@ class Products extends React.Component<ProductsPropsInterface, ProductsStateInte
         <Grid container spacing={24}>
           <Grid item xs={12}>
             <Paper>
-              <Button variant="contained" color="primary" size="small" style={{ width: '100%' }}>
-                <Link to="/checkout" style={styles.linkStyles}>
+              <Link to="/checkout" style={styles.linkStyles}>
+                <Button variant="contained" color="primary" size="small" style={{ width: '100%' }}>
                   {`Go to cart`}
-                </Link>
-              </Button>
+                </Button>
+              </Link>
             </Paper>
           </Grid>
           {this.state.productsFields.rows.map((product: ProductsDataInterface, key: number) => {

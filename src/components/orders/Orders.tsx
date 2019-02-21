@@ -9,15 +9,9 @@ import * as React from 'react';
 import { connect } from 'react-redux';
 
 // Import the dependent components
-import { RequestType } from '../../utils/api/Api.enum';
 
 // Import the dependent interfaces
-import {
-  OrdersDataInterface,
-  OrdersFieldInterface,
-  OrdersPropsInterface,
-  OrdersStateInterface,
-} from './Orders.interface';
+import { OrdersDataInterface, OrdersPropsInterface, OrdersStateInterface } from './Orders.interface';
 const base64 = require('base-64');
 
 class Orders extends React.Component<OrdersPropsInterface, OrdersStateInterface> {
