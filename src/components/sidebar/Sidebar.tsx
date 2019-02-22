@@ -5,40 +5,81 @@
 'use strict';
 
 // Import the dependent modules
+import List from '@material-ui/core/List';
+import ListItem from '@material-ui/core/ListItem';
+import ListItemIcon from '@material-ui/core/ListItemIcon';
+import ListItemText from '@material-ui/core/ListItemText';
+import AccountCircleIcon from '@material-ui/icons/AccountCircle';
+import AddShoppingCartIcon from '@material-ui/icons/AddShoppingCart';
+import FileDownloadIcon from '@material-ui/icons/CloudDownload';
+import HighlightIcon from '@material-ui/icons/Highlight';
+import ReportProblemIcon from '@material-ui/icons/ReportProblem';
+import ShoppingCartIcon from '@material-ui/icons/ShoppingCart';
 import * as React from 'react';
-import { Link } from 'react-router-dom';
 
+// Import the dependent components
 import routes from '../../routes';
 
-const Sidebar: React.SFC<{}> = () => {
-  return (
-    <div className="block block--sidebar collection">
-      <Link to={routes.profile} className="collection-item blue-text">
-        <i className="material-icons">account_circle</i>
-        Profile
-      </Link>
-      <Link to={routes.products} className="collection-item blue-text">
-        <i className="material-icons">highlight</i>
-        Products
-      </Link>
-      <Link to={routes.orders} className="collection-item blue-text">
-        <i className="material-icons">shopping_cart</i>
-        My Orders
-      </Link>
-      <Link to={routes.ordersImport} className="collection-item blue-text">
-        <i className="material-icons">add_shopping_cart</i>
-        Import Orders
-      </Link>
-      <Link to={routes.test} className="collection-item blue-text">
-        <i className="material-icons">file_download</i>
-        Data Download
-      </Link>
-      <Link to={routes.test} className="collection-item blue-text">
-        <i className="material-icons">report_problem</i>
-        Report
-      </Link>
-    </div>
-  );
-};
+/**
+ * Listens to changes in the location and performs redux store updates.
+ *
+ * @method locationChange
+ *
+ * @param { string } path - the location path.
+ *
+ * @return UnregisterCallback
+ */
+class Sidebar extends React.Component {
+  render() {
+    return (
+      <React.Fragment>
+        <List component="nav">
+          <ListItem button component="a" href={routes.profile}>
+            <ListItemIcon>
+              <AccountCircleIcon />
+            </ListItemIcon>
+            <ListItemText primary="Profile" />
+          </ListItem>
+          <ListItem button component="a" href={routes.products}>
+            <ListItemIcon>
+              <HighlightIcon />
+            </ListItemIcon>
+            <ListItemText primary="Products" />
+          </ListItem>
+          <ListItem button component="a" href={routes.productsImport}>
+            <ListItemIcon>
+              <AddShoppingCartIcon />
+            </ListItemIcon>
+            <ListItemText primary="Import Products" />
+          </ListItem>
+          <ListItem button component="a" href={routes.orders}>
+            <ListItemIcon>
+              <ShoppingCartIcon />
+            </ListItemIcon>
+            <ListItemText primary="My Orders" />
+          </ListItem>
+          <ListItem button component="a" href={routes.ordersImport}>
+            <ListItemIcon>
+              <AddShoppingCartIcon />
+            </ListItemIcon>
+            <ListItemText primary="Import Orders" />
+          </ListItem>
+          <ListItem button component="a" href={routes.test}>
+            <ListItemIcon>
+              <FileDownloadIcon />
+            </ListItemIcon>
+            <ListItemText primary="Data Download" />
+          </ListItem>
+          <ListItem button component="a" href={routes.test}>
+            <ListItemIcon>
+              <ReportProblemIcon />
+            </ListItemIcon>
+            <ListItemText primary="Report" />
+          </ListItem>
+        </List>
+      </React.Fragment>
+    );
+  }
+}
 
 export default Sidebar;

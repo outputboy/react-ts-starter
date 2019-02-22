@@ -9,6 +9,7 @@ import * as React from 'react';
 import { connect } from 'react-redux';
 import { Dispatch, bindActionCreators } from 'redux';
 
+// Import the dependent components
 import { deleteCartProduct } from '../../actions/cartActions';
 
 // Import style
@@ -20,6 +21,15 @@ import Typography from '@material-ui/core/Typography';
 // Import the dependent interfaces
 import { CartDataInterface, CartPropsInterface, CartStateInterface } from './Cart.interface';
 
+/**
+ * Listens to changes in the location and performs redux store updates.
+ *
+ * @method locationChange
+ *
+ * @param { string } path - the location path.
+ *
+ * @return UnregisterCallback
+ */
 class Cart extends React.Component<CartPropsInterface, CartStateInterface> {
   constructor(props: CartPropsInterface) {
     super(props);

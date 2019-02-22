@@ -6,19 +6,19 @@
 
 // Import the dependent modules
 import * as React from 'react';
+import { connect } from 'react-redux';
 
 // Import the dependent components
 import _ from 'lodash';
 import ReactFileReader from 'react-file-reader';
 import { APIModel } from '../../utils/api/Api.model';
-import Sidebar from '../sidebar/Sidebar';
 
 // Import the dependent interfaces
 import { ExcelDictionary, ExcelRow } from '../../utils/excel/Excel.interface';
 import { ProductsImportPropsInterface, ProductsImportStateInterface } from './ProductsImport.interface';
 const base64 = require('base-64');
 
-class OrderImport extends React.Component<ProductsImportPropsInterface, ProductsImportStateInterface> {
+class ProductsImport extends React.Component<ProductsImportPropsInterface, ProductsImportStateInterface> {
   // constructor
   constructor(props: ProductsImportPropsInterface) {
     super(props);
@@ -26,20 +26,26 @@ class OrderImport extends React.Component<ProductsImportPropsInterface, Products
 
   // fetch products data
   fetchData = (excelData: ExcelDictionary) => {
-    const myHeaders = new Headers();
+    if (this.props.loginDetails) {
+      const myHeaders = new Headers();
+      const loginDetails = `${this.props.loginDetails.username}:${this.props.loginDetails.password}`;
+      const encodeLogin = `Basic ${base64.encode(loginDetails)}`;
 
-    myHeaders.append('Content-Type', 'application/json');
-    myHeaders.append('Authorization', 'dsknight@live.com.au');
+      myHeaders.append('Content-Type', 'application/json');
+      myHeaders.append('Authorization', encodeLogin);
 
-    // Request products
-    fetch(`${APIModel.getServerPath()}/drupalup/add-order`, {
-      method: 'POST',
-      headers: myHeaders,
-      body: JSON.stringify(excelData),
-    })
-      .then((response) => response.json())
-      .then((data) => console.log(data))
-      .catch((error) => console.log(error));
+      // construct body info
+      const apiData = { method: 'POST', headers: myHeaders, body: JSON.stringify(excelData) };
+
+      // Request products
+      APIModel.request(APIModel.requestAPI('/drupalup/add-products', apiData))
+        .promise.then((data: any) => {
+          console.log(data);
+        })
+        .catch((error: {}) => console.log(error));
+    } else {
+      alert('Sorry, please fill in the form.');
+    }
   };
 
   // handle excel upload
@@ -109,9 +115,6 @@ class OrderImport extends React.Component<ProductsImportPropsInterface, Products
     return (
       <div className="container">
         <div className="row">
-          <div className="col m3 s12">
-            <Sidebar />
-          </div>
           <div className="col m9 s12">
             <div className="card blue-grey darken-1">
               <div className="card-content white-text">
@@ -134,4 +137,10 @@ class OrderImport extends React.Component<ProductsImportPropsInterface, Products
   }
 }
 
-export default OrderImport;
+const mapStateToProps = (store: any) => {
+  return {
+    loginDetails: store.loginDetails,
+  };
+};
+
+export default connect(mapStateToProps)(ProductsImport);
