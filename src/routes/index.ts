@@ -6,6 +6,9 @@ const routes = {
   checkout: '/checkout',
   success: '/success',
   cart: '/cart',
+  profile: '/profile',
+  ordersImport: '/orders-import',
+  productsImport: '/products-import',
 };
 
 export default routes;

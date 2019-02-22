@@ -4,6 +4,10 @@
  */
 'use strict';
 
+// Import style
+import Button from '@material-ui/core/Button';
+import Grid from '@material-ui/core/Grid';
+import Paper from '@material-ui/core/Paper';
 // Import the dependent modules
 import * as React from 'react';
 import { connect } from 'react-redux';
@@ -164,19 +168,31 @@ class Checkout extends React.Component<CheckoutPropsInterface, CheckoutStateInte
   // render all product card
   render() {
     return (
-      <div className="container">
-        <div className="row">
-          <div className="col m9 s12">
-            <div className="block--orders collection">
-              <Address />
-              <Cart />
-            </div>
-            <div>
-              <button onClick={() => this.submitOrder()}>Submit Order</button>
-            </div>
-          </div>
-        </div>
-      </div>
+      <Grid container spacing={24}>
+        <Grid item md={6} xs={12}>
+          <Paper>
+            <Address />
+          </Paper>
+        </Grid>
+        <Grid item md={6} xs={12}>
+          <Paper>
+            <Cart />
+          </Paper>
+        </Grid>
+        <Grid item xs={12}>
+          <Paper>
+            <Button
+              variant="contained"
+              color="primary"
+              size="small"
+              style={{ width: '100%' }}
+              onClick={() => this.submitOrder()}
+            >
+              Submit Order
+            </Button>
+          </Paper>
+        </Grid>
+      </Grid>
     );
   }
 }

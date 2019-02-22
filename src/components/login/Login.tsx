@@ -1,10 +1,19 @@
+import TextField from '@material-ui/core/TextField';
 import React from 'react';
 import { connect } from 'react-redux';
-import { NavLink } from 'react-router-dom';
+import { Link } from 'react-router-dom';
 import { Dispatch, bindActionCreators } from 'redux';
 import { fetchLogin } from '../../actions/loginActions';
 
+import Button from '@material-ui/core/Button';
 import { LoginInterface, LoginPropsInterface } from './Login.interface';
+
+const styles = {
+  linkStyles: {
+    textDecoration: 'none',
+    color: 'white',
+  },
+};
 
 class Login extends React.Component<LoginPropsInterface, LoginInterface> {
   constructor(props: LoginPropsInterface) {
@@ -15,7 +24,7 @@ class Login extends React.Component<LoginPropsInterface, LoginInterface> {
     this.onChange = this.onChange.bind(this);
   }
 
-  onChange(event: React.FormEvent<HTMLInputElement>) {
+  onChange(event: React.FormEvent<HTMLInputElement | HTMLSelectElement | HTMLTextAreaElement>) {
     const elementName: string = event.currentTarget.name;
     const elementValue: string = event.currentTarget.value;
     this.setState((current: LoginInterface) => ({ ...current, [elementName]: elementValue }));
@@ -24,21 +33,39 @@ class Login extends React.Component<LoginPropsInterface, LoginInterface> {
   render() {
     return (
       <form>
-        Username: <input type="text" name={'username'} onChange={this.onChange} />
+        <TextField
+          label={'Username'}
+          onChange={(event: React.FormEvent<HTMLInputElement | HTMLSelectElement | HTMLTextAreaElement>) =>
+            this.onChange(event)
+          }
+          name={'username'}
+          placeholder={'username'}
+          required
+        />
         <br />
-        Password: <input type="text" name={'password'} onChange={this.onChange} />
+        <TextField
+          label={'Password'}
+          onChange={(event: React.FormEvent<HTMLInputElement | HTMLSelectElement | HTMLTextAreaElement>) =>
+            this.onChange(event)
+          }
+          name={'password'}
+          placeholder={'password'}
+          required
+        />
         <br />
-        <NavLink to="/products">
-          <input
-            type="submit"
-            value="Submit"
+        <Link to="/products" style={styles.linkStyles}>
+          <Button
+            variant="contained"
+            color="primary"
             onClick={() => {
               if (this.props.fetchLogin) {
                 this.props.fetchLogin({ username: this.state.username, password: this.state.password });
               }
             }}
-          />
-        </NavLink>
+          >
+            Submit
+          </Button>
+        </Link>
       </form>
     );
   }
