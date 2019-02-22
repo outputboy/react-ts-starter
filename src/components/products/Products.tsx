@@ -18,14 +18,12 @@ import Paper from '@material-ui/core/Paper';
 
 // Import the dependent components
 import ProductSingle from './ProductSingle';
+const base64 = require('base-64');
 
 // Import the dependent interfaces
 import { ProductsDataInterface, ProductsPropsInterface, ProductsStateInterface } from './Products.interface';
 
 const styles = {
-  root: {
-    flexGrow: 1,
-  },
   linkStyles: {
     textDecoration: 'none',
     color: 'white',
@@ -60,10 +58,13 @@ class Products extends React.Component<ProductsPropsInterface, ProductsStateInte
     if (this.props.loginDetails) {
       // Init headers
       const myHeaders = new Headers();
+      const loginDetails = `${this.props.loginDetails.username}:${this.props.loginDetails.password}`;
+      const encodeLogin = `Basic ${base64.encode(loginDetails)}`;
 
       myHeaders.append('Content-Type', 'application/json');
+      myHeaders.append('Authorization', encodeLogin);
 
-      const apiData = { method: 'GET' };
+      const apiData = { method: 'GET', headers: myHeaders };
 
       // Request products
       APIModel.request(APIModel.requestAPI('/products', apiData))
@@ -77,7 +78,7 @@ class Products extends React.Component<ProductsPropsInterface, ProductsStateInte
   // render all product card
   render() {
     return (
-      <div style={styles.root}>
+      <React.Fragment>
         <Grid container spacing={24}>
           <Grid item xs={12}>
             <Paper>
@@ -101,7 +102,7 @@ class Products extends React.Component<ProductsPropsInterface, ProductsStateInte
             );
           })}
         </Grid>
-      </div>
+      </React.Fragment>
     );
   }
 }

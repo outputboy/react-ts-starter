@@ -9,13 +9,12 @@ import { LoginInterface } from '../login/Login.interface';
  * Order data properties interface.
  */
 export interface OrdersDataInterface {
-  order_id: string;
+  order_number: string;
   placed: string;
   total_price__number: string;
   state: string;
-  uid: string;
   order_items: string;
-  field_order_serial_number: string;
+  order_id: string;
 }
 
 /*
@@ -37,7 +36,7 @@ export interface OrdersPropsInterface {
  * Orders state interface.
  */
 export interface OrdersStateInterface {
-  ordersData: OrdersFieldInterface;
+  ordersFields: OrdersFieldInterface;
   paymentTotal: number;
-  orderId: Array<string>;
+  submitOrders: string[];
 }
