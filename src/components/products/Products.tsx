@@ -91,7 +91,7 @@ class Products extends React.Component<ProductsPropsInterface, ProductsStateInte
           </Grid>
           {this.state.productsFields.rows.map((product: ProductsDataInterface, key: number) => {
             return (
-              <Grid item xs={3} key={key}>
+              <Grid item xs={12} md={6} lg={4} key={key}>
                 <Paper>
                   <ProductSingle
                     product={product}
