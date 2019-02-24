@@ -11,6 +11,7 @@ import ListItemIcon from '@material-ui/core/ListItemIcon';
 import ListItemText from '@material-ui/core/ListItemText';
 import AccountCircleIcon from '@material-ui/icons/AccountCircle';
 import AddShoppingCartIcon from '@material-ui/icons/AddShoppingCart';
+import CheckoutIcon from '@material-ui/icons/CheckOutlined';
 import FileDownloadIcon from '@material-ui/icons/CloudDownload';
 import HighlightIcon from '@material-ui/icons/Highlight';
 import ReportProblemIcon from '@material-ui/icons/ReportProblem';
@@ -45,6 +46,12 @@ class Sidebar extends React.Component {
               <HighlightIcon />
             </ListItemIcon>
             <ListItemText primary="Products" />
+          </ListItem>
+          <ListItem button component="a" href={routes.checkout}>
+            <ListItemIcon>
+              <CheckoutIcon />
+            </ListItemIcon>
+            <ListItemText primary="Checkout" />
           </ListItem>
           <ListItem button component="a" href={routes.productsImport}>
             <ListItemIcon>

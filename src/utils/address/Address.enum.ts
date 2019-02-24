@@ -20,7 +20,7 @@ export enum StateType {
   NT = 'Northern Territory',
   QLD = 'Queensland',
   TAS = 'Tasmania',
-  VIC = 'Victoria',
+  VIC = 'victoria',
   SA = 'South Australia',
   WA = 'Western Australia',
 }

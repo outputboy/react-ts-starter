@@ -83,11 +83,11 @@ class App extends React.Component<Props & WithStyles<ClassKeys>> {
     const { classes } = this.props;
     return (
       <div className={classes.root}>
-        <Grid container>
-          <Grid item xs={4}>
+        <Grid container spacing={24}>
+          <Grid item xs={12} md={4}>
             <Sidebar />
           </Grid>
-          <Grid item xs={8}>
+          <Grid item xs={12} md={8}>
             <Switch>
               <Route exact path={routes.home} component={Home} />
               <Route exact path={routes.test} component={Test} />
