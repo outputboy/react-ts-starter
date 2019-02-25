@@ -16,6 +16,7 @@ import { APIModel } from '../../utils/api/Api.model';
 // Import the dependent interfaces
 import { ExcelDictionary, ExcelRow } from '../../utils/excel/Excel.interface';
 import { ProductsImportPropsInterface, ProductsImportStateInterface } from './ProductsImport.interface';
+
 const base64 = require('base-64');
 
 class ProductsImport extends React.Component<ProductsImportPropsInterface, ProductsImportStateInterface> {
@@ -38,7 +39,7 @@ class ProductsImport extends React.Component<ProductsImportPropsInterface, Produ
       const apiData = { method: 'POST', headers: myHeaders, body: JSON.stringify(excelData) };
 
       // Request products
-      APIModel.request(APIModel.requestAPI('/drupalup/add-products', apiData))
+      APIModel.request(APIModel.requestAPI('/drupalup/add_product', apiData))
         .promise.then((data: any) => {
           console.log(data);
         })
@@ -54,17 +55,10 @@ class ProductsImport extends React.Component<ProductsImportPropsInterface, Produ
       if (typeof result === 'string') {
         const allTextLines = result.split(/\r\n|\n/);
         if (
-          allTextLines[0].indexOf('serial_number') === -1 ||
-          allTextLines[0].indexOf('first_name') === -1 ||
-          allTextLines[0].indexOf('last_name') === -1 ||
-          allTextLines[0].indexOf('address1') === -1 ||
-          allTextLines[0].indexOf('suburb') === -1 ||
-          allTextLines[0].indexOf('state') === -1 ||
-          allTextLines[0].indexOf('postcode') === -1 ||
-          allTextLines[0].indexOf('telephone') === -1 ||
           allTextLines[0].indexOf('sku') === -1 ||
+          allTextLines[0].indexOf('price') === -1 ||
           allTextLines[0].indexOf('qty') === -1 ||
-          allTextLines[0].indexOf('comment') === -1
+          allTextLines[0].indexOf('title') === -1
         ) {
           alert('not enough data');
         } else {
@@ -118,11 +112,9 @@ class ProductsImport extends React.Component<ProductsImportPropsInterface, Produ
           <div className="col m9 s12">
             <div className="card blue-grey darken-1">
               <div className="card-content white-text">
-                <span className="card-title">Upload Your Orders</span>
+                <span className="card-title">Upload Your Products</span>
                 <p>Please upload Excel csv file only. Fields must include </p>
-                <p>
-                  *serial_number *first_name *last_name *address1 *suburb *state *postcode *telephone *sku *qty *comment
-                </p>
+                <p>*sku *price *qty *title</p>
               </div>
               <div className="card-action">
                 <ReactFileReader handleFiles={this.handleFiles} fileTypes={'.csv'}>

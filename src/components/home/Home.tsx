@@ -24,10 +24,14 @@ class Home extends React.PureComponent<HomePropsInterface> {
   render() {
     return (
       <Grid container direction="row" justify="center" alignItems="baseline" spacing={16}>
-        <Typography color="inherit" component="h1" variant="h3">
-          {this.props.title}
-        </Typography>
-        <Login />
+        <Grid item xs={12} style={{ textAlign: 'center' }}>
+          <Typography color="inherit" component="h1" variant="h3">
+            {this.props.title}
+          </Typography>
+        </Grid>
+        <Grid item xs={12} style={{ textAlign: 'center' }}>
+          <Login />
+        </Grid>
       </Grid>
     );
   }

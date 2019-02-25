@@ -16,7 +16,6 @@ import { APIModel } from '../../utils/api/Api.model';
 // Import the dependent interfaces
 import { ExcelDictionary, ExcelRow } from '../../utils/excel/Excel.interface';
 import { OrdersImportPropsInterface, OrdersImportStateInterface } from './OrdersImport.interface';
-const base64 = require('base-64');
 
 class OrdersImport extends React.Component<OrdersImportPropsInterface, OrdersImportStateInterface> {
   // constructor
@@ -112,7 +111,6 @@ class OrdersImport extends React.Component<OrdersImportPropsInterface, OrdersImp
 
   // render all product card
   render() {
-    console.log(this.props.loginDetails);
     return (
       <div className="container">
         <div className="row">

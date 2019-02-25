@@ -214,7 +214,24 @@ class Address extends React.Component<AddressPropsInterface, AddressStateInterfa
               <Select
                 options={stateOptions}
                 onChange={(value: any) => {
-                  this.setState({ field_state: value['value'] });
+                  this.setState({ field_state: value['value'] }, () => {
+                    // Update redux store with address state result
+                    if (this.props.fetchAddress) {
+                      this.props.fetchAddress({
+                        address: {
+                          field_email: this.state.field_email,
+                          field_first_name: this.state.field_first_name,
+                          field_last_name: this.state.field_last_name,
+                          field_address: this.state.field_address,
+                          field_suburb: this.state.field_suburb,
+                          field_state: this.state.field_state,
+                          field_postcode: this.state.field_postcode,
+                          field_telephone: this.state.field_telephone,
+                          form_valid: this.state.formValid,
+                        },
+                      });
+                    }
+                  });
                 }}
               />
               <Typography color={'error'}>{this.state.formErrors.field_state}</Typography>

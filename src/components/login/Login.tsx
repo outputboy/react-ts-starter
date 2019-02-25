@@ -40,6 +40,7 @@ class Login extends React.Component<LoginPropsInterface, LoginInterface> {
           }
           name={'username'}
           placeholder={'username'}
+          type={'text'}
           required
         />
         <br />
@@ -50,6 +51,7 @@ class Login extends React.Component<LoginPropsInterface, LoginInterface> {
           }
           name={'password'}
           placeholder={'password'}
+          type={'password'}
           required
         />
         <br />
@@ -62,6 +64,7 @@ class Login extends React.Component<LoginPropsInterface, LoginInterface> {
                 this.props.fetchLogin({ username: this.state.username, password: this.state.password });
               }
             }}
+            style={{ marginTop: 10 }}
           >
             Submit
           </Button>

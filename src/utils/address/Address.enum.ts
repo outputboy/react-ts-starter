@@ -14,15 +14,15 @@ export enum AddressType {
 }
 
 export enum StateType {
-  ACT = 'Australian Capital Territory',
+  ACT = 'ACT',
   NONE = '',
-  NSW = 'New South Wales',
-  NT = 'Northern Territory',
-  QLD = 'Queensland',
-  TAS = 'Tasmania',
-  VIC = 'victoria',
-  SA = 'South Australia',
-  WA = 'Western Australia',
+  NSW = 'NSW',
+  NT = 'NT',
+  QLD = 'QLD',
+  TAS = 'TAS',
+  VIC = 'VIC',
+  SA = 'SA',
+  WA = 'WA',
 }
 
 // Mock state selection

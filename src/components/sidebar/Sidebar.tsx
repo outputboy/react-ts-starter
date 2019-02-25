@@ -37,49 +37,49 @@ class Sidebar extends React.Component {
         <List component="nav">
           <ListItem button component="a" href={routes.profile}>
             <ListItemIcon>
-              <AccountCircleIcon />
+              <AccountCircleIcon color={'primary'} />
             </ListItemIcon>
             <ListItemText primary="Profile" />
           </ListItem>
           <ListItem button component="a" href={routes.products}>
             <ListItemIcon>
-              <HighlightIcon />
+              <HighlightIcon color={'primary'} />
             </ListItemIcon>
             <ListItemText primary="Products" />
           </ListItem>
           <ListItem button component="a" href={routes.checkout}>
             <ListItemIcon>
-              <CheckoutIcon />
+              <CheckoutIcon color={'primary'} />
             </ListItemIcon>
             <ListItemText primary="Checkout" />
           </ListItem>
           <ListItem button component="a" href={routes.productsImport}>
             <ListItemIcon>
-              <AddShoppingCartIcon />
+              <AddShoppingCartIcon color={'primary'} />
             </ListItemIcon>
             <ListItemText primary="Import Products" />
           </ListItem>
           <ListItem button component="a" href={routes.orders}>
             <ListItemIcon>
-              <ShoppingCartIcon />
+              <ShoppingCartIcon color={'primary'} />
             </ListItemIcon>
             <ListItemText primary="My Orders" />
           </ListItem>
           <ListItem button component="a" href={routes.ordersImport}>
             <ListItemIcon>
-              <AddShoppingCartIcon />
+              <AddShoppingCartIcon color={'primary'} />
             </ListItemIcon>
             <ListItemText primary="Import Orders" />
           </ListItem>
           <ListItem button component="a" href={routes.test}>
             <ListItemIcon>
-              <FileDownloadIcon />
+              <FileDownloadIcon color={'primary'} />
             </ListItemIcon>
             <ListItemText primary="Data Download" />
           </ListItem>
           <ListItem button component="a" href={routes.test}>
             <ListItemIcon>
-              <ReportProblemIcon />
+              <ReportProblemIcon color={'primary'} />
             </ListItemIcon>
             <ListItemText primary="Report" />
           </ListItem>

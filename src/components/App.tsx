@@ -39,16 +39,16 @@ interface ComponentProps {
   title?: string;
 }
 
-const styles: StyleRulesCallback<ClassKeys> = (theme) => ({
+const styles: StyleRulesCallback<ClassKeys> = (themeDefault) => ({
   '@global': {
     code: {
-      color: theme.palette.secondary.main,
+      color: themeDefault.palette.secondary.main,
       fontFamily: 'Consolas, monospace',
     },
   },
   root: {
     maxWidth: 1200,
-    margin: 'auto',
+    margin: '30px auto',
   },
   cartPos: {
     position: 'absolute',
@@ -102,7 +102,7 @@ class App extends React.Component<Props & WithStyles<ClassKeys>> {
             </Switch>
           </Grid>
 
-          <Button color="primary" onClick={this.testSnackbar} variant="contained" className={classes.cartPos}>
+          <Button color="secondary" onClick={this.testSnackbar} variant="contained" className={classes.cartPos}>
             Shopping Cart
           </Button>
           <TheSnackbar />
