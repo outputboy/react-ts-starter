@@ -13,19 +13,19 @@ import { InputProps } from './Input.interface';
 
 const InputComponent: React.SFC<InputProps> = (props: InputProps) => {
   return (
-    <div className={`form-group ${props.hasError}`}>
-      <TextField
-        className="form-input"
-        id={props.name}
-        name={props.name}
-        type={props.type}
-        value={props.value}
-        onChange={props.handleChange}
-        onBlur={props.handleFocusOut}
-        placeholder={props.placeholder}
-        error={props.hasError.length === 0 ? false : true}
-      />
-    </div>
+    <TextField
+      className="form-input"
+      id={props.name}
+      name={props.name}
+      type={props.type}
+      value={props.value}
+      onChange={props.handleChange}
+      onBlur={props.handleFocusOut}
+      placeholder={props.placeholder}
+      error={props.hasError.length === 0 ? false : true}
+      label={props.label}
+      style={{ width: '100%', padding: '15px 0' }}
+    />
   );
 };
 

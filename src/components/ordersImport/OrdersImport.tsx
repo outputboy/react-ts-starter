@@ -41,7 +41,7 @@ class OrdersImport extends React.Component<OrdersImportPropsInterface, OrdersImp
         .promise.then((data: any) => {
           console.log(data);
         })
-        .catch((error: {}) => console.log(error));
+        .catch((error: {}) => console.log(`Sorry no permission${error}`));
     } else {
       alert('Sorry, please fill in the form.');
     }

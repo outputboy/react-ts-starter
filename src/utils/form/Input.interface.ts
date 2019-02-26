@@ -15,6 +15,7 @@ export interface InputProps {
   name: string;
   value: string | number;
   placeholder: string;
+  label: string;
   handleChange: (event: React.FormEvent<HTMLInputElement | HTMLSelectElement | HTMLTextAreaElement>) => void;
   handleFocusOut: (event: React.FormEvent<HTMLInputElement>) => void;
   hasError: string;
