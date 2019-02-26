@@ -55,3 +55,17 @@ export interface ProductSinglePropsInterface {
  * Single product state interface.
  */
 export interface ProductSingleStateInterface {}
+
+/**
+ * Product search props interface.
+ */
+export interface ProductsSearchPropsInterface {
+  fetchProducts: Function;
+}
+
+/**
+ * Product search state interface.
+ */
+export interface ProductsSearchStateInterface {
+  keywords: string;
+}
