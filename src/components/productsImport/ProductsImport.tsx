@@ -5,6 +5,12 @@
 'use strict';
 
 // Import the dependent modules
+import Button from '@material-ui/core/Button';
+import Card from '@material-ui/core/Card';
+import CardActions from '@material-ui/core/CardActions';
+import CardContent from '@material-ui/core/CardContent';
+import Grid from '@material-ui/core/Grid';
+import Typography from '@material-ui/core/Typography';
 import * as React from 'react';
 import { connect } from 'react-redux';
 
@@ -107,24 +113,28 @@ class ProductsImport extends React.Component<ProductsImportPropsInterface, Produ
   // render all product card
   render() {
     return (
-      <div className="container">
-        <div className="row">
-          <div className="col m9 s12">
-            <div className="card blue-grey darken-1">
-              <div className="card-content white-text">
-                <span className="card-title">Upload Your Products</span>
-                <p>Please upload Excel csv file only. Fields must include </p>
-                <p>*sku *price *qty *title</p>
-              </div>
-              <div className="card-action">
-                <ReactFileReader handleFiles={this.handleFiles} fileTypes={'.csv'}>
-                  <button className="blue btn">Upload</button>
-                </ReactFileReader>
-              </div>
-            </div>
-          </div>
-        </div>
-      </div>
+      <Grid container>
+        <Grid item xs={12}>
+          <Card>
+            <CardContent>
+              <Typography variant={'title'} gutterBottom>
+                Upload Your Products
+              </Typography>
+              <Typography variant={'subheading'} gutterBottom>
+                Please upload Excel csv file only. Fields must include{' '}
+              </Typography>
+              <Typography gutterBottom>*sku *price *qty *title</Typography>
+            </CardContent>
+            <CardActions className="card-action">
+              <ReactFileReader handleFiles={this.handleFiles} fileTypes={'.csv'}>
+                <Button variant="contained" color="primary">
+                  Products Upload
+                </Button>
+              </ReactFileReader>
+            </CardActions>
+          </Card>
+        </Grid>
+      </Grid>
     );
   }
 }

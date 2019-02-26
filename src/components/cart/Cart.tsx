@@ -58,21 +58,33 @@ class Cart extends React.Component<CartPropsInterface, CartStateInterface> {
             <Card key={key}>
               <CardContent>
                 <Typography color="textSecondary" gutterBottom>
+                  {'SKU'}
+                </Typography>
+                <Typography color="textPrimary" gutterBottom>
                   {cartItem.sku}
                 </Typography>
               </CardContent>
               <CardContent>
                 <Typography color="textSecondary" gutterBottom>
+                  {'Title'}
+                </Typography>
+                <Typography color="textPrimary" gutterBottom>
                   {cartItem.title}
                 </Typography>
               </CardContent>
               <CardContent>
                 <Typography color="textSecondary" gutterBottom>
+                  {'Quantity'}
+                </Typography>
+                <Typography color="textPrimary" gutterBottom>
                   {cartItem.singleQty}
                 </Typography>
               </CardContent>
               <CardContent>
                 <Typography color="textSecondary" gutterBottom>
+                  {'Price'}
+                </Typography>
+                <Typography color="textPrimary" gutterBottom>
                   {cartItem.singleTotal}
                 </Typography>
               </CardContent>
