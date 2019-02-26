@@ -5,6 +5,7 @@
 'use strict';
 
 // Import the dependent modules
+import Grid from '@material-ui/core/Grid';
 import * as React from 'react';
 import { connect } from 'react-redux';
 import Select from 'react-select';
@@ -153,97 +154,118 @@ class Address extends React.Component<AddressPropsInterface, AddressStateInterfa
   // render all product card
   render() {
     return (
-      <div className="container">
-        <div className="row">
-          <div className="col m9 s12">
-            <div className="block--cart collection">
-              <Input
-                type={'text'}
-                title={'eMail Address'}
-                name={'field_email'}
-                value={this.state.field_email}
-                placeholder={'email(Required)'}
-                handleChange={this.handleChange}
-                handleFocusOut={this.handleChange}
-                hasError={this.errorClass(this.state.formErrors.field_email)}
-              />{' '}
-              <Typography color={'error'}>{this.state.formErrors.field_email}</Typography>
-              <Input
-                type={'text'}
-                title={'First Name'}
-                name={'field_first_name'}
-                value={this.state.field_first_name}
-                placeholder={'First Name(Required)'}
-                handleChange={this.handleChange}
-                handleFocusOut={this.handleChange}
-                hasError={this.errorClass(this.state.formErrors.field_first_name)}
-              />
-              <Typography color={'error'}>{this.state.formErrors.field_first_name}</Typography>
-              <Input
-                type={'text'}
-                title={'Last Name'}
-                name={'field_last_name'}
-                value={this.state.field_last_name}
-                placeholder={'Last Name(Required)'}
-                handleChange={this.handleChange}
-                handleFocusOut={this.handleChange}
-                hasError={this.errorClass(this.state.formErrors.field_last_name)}
-              />
-              <Typography color={'error'}>{this.state.formErrors.field_last_name}</Typography>
-              <Input
-                type={'text'}
-                title={'Address'}
-                name={'field_address'}
-                value={this.state.field_address}
-                placeholder={'Street Address(Required)'}
-                handleChange={this.handleChange}
-                handleFocusOut={this.handleChange}
-                hasError={this.errorClass(this.state.formErrors.field_address)}
-              />
-              <Typography color={'error'}>{this.state.formErrors.field_address}</Typography>
-              <Input
-                type={'text'}
-                title={'Suburb'}
-                name={'field_suburb'}
-                value={this.state.field_suburb}
-                placeholder={'Suburb(Required)'}
-                handleChange={this.handleChange}
-                handleFocusOut={this.handleChange}
-                hasError={this.errorClass(this.state.formErrors.field_suburb)}
-              />
-              <Select
-                options={stateOptions}
-                onChange={(value: any) => {
-                  this.setState({ field_state: value['value'] });
-                }}
-              />
-              <Typography color={'error'}>{this.state.formErrors.field_state}</Typography>
-              <Input
-                type={'text'}
-                title={'Postcode'}
-                name={'field_postcode'}
-                value={this.state.field_postcode}
-                placeholder={'Postcode(Required)'}
-                handleChange={this.handleChange}
-                handleFocusOut={this.handleChange}
-                hasError={this.errorClass(this.state.formErrors.field_postcode)}
-              />
-              <Typography color={'error'}>{this.state.formErrors.field_postcode}</Typography>
-              <Input
-                type={'text'}
-                title={'Telephone'}
-                name={'field_telephone'}
-                value={this.state.field_telephone}
-                placeholder={'Telephone(Required)'}
-                handleChange={this.handleChange}
-                handleFocusOut={this.handleChange}
-                hasError={this.errorClass(this.state.formErrors.field_telephone)}
-              />
-              <Typography color={'error'}>{this.state.formErrors.field_telephone}</Typography>
-            </div>
-          </div>
-        </div>
-      </div>
+      <Grid container>
+        <Grid item xs={12}>
+          <Input
+            type={'text'}
+            title={'eMail Address'}
+            name={'field_email'}
+            value={this.state.field_email}
+            placeholder={'email(Required)'}
+            label={'email'}
+            handleChange={this.handleChange}
+            handleFocusOut={this.handleChange}
+            hasError={this.errorClass(this.state.formErrors.field_email)}
+          />{' '}
+          <Typography color={'error'}>{this.state.formErrors.field_email}</Typography>
+          <Input
+            type={'text'}
+            title={'First Name'}
+            name={'field_first_name'}
+            value={this.state.field_first_name}
+            placeholder={'First Name(Required)'}
+            label={'First Name'}
+            handleChange={this.handleChange}
+            handleFocusOut={this.handleChange}
+            hasError={this.errorClass(this.state.formErrors.field_first_name)}
+          />
+          <Typography color={'error'}>{this.state.formErrors.field_first_name}</Typography>
+          <Input
+            type={'text'}
+            title={'Last Name'}
+            name={'field_last_name'}
+            value={this.state.field_last_name}
+            placeholder={'Last Name(Required)'}
+            label={'Last Name'}
+            handleChange={this.handleChange}
+            handleFocusOut={this.handleChange}
+            hasError={this.errorClass(this.state.formErrors.field_last_name)}
+          />
+          <Typography color={'error'}>{this.state.formErrors.field_last_name}</Typography>
+          <Input
+            type={'text'}
+            title={'Address'}
+            name={'field_address'}
+            value={this.state.field_address}
+            placeholder={'Street Address(Required)'}
+            label={'Street Address'}
+            handleChange={this.handleChange}
+            handleFocusOut={this.handleChange}
+            hasError={this.errorClass(this.state.formErrors.field_address)}
+          />
+          <Typography color={'error'}>{this.state.formErrors.field_address}</Typography>
+          <Input
+            type={'text'}
+            title={'Suburb'}
+            name={'field_suburb'}
+            value={this.state.field_suburb}
+            placeholder={'Suburb(Required)'}
+            label={'Suburb'}
+            handleChange={this.handleChange}
+            handleFocusOut={this.handleChange}
+            hasError={this.errorClass(this.state.formErrors.field_suburb)}
+          />
+          <Typography style={{ color: 'grey' }}>{`State`}</Typography>
+          <Select
+            options={stateOptions}
+            onChange={(value: any) => {
+              this.setState({ field_state: value['value'] }, () => {
+                // Update redux store with address state result
+                if (this.props.fetchAddress) {
+                  this.props.fetchAddress({
+                    address: {
+                      field_email: this.state.field_email,
+                      field_first_name: this.state.field_first_name,
+                      field_last_name: this.state.field_last_name,
+                      field_address: this.state.field_address,
+                      field_suburb: this.state.field_suburb,
+                      field_state: this.state.field_state,
+                      field_postcode: this.state.field_postcode,
+                      field_telephone: this.state.field_telephone,
+                      form_valid: this.state.formValid,
+                    },
+                  });
+                }
+              });
+            }}
+          />
+          <Typography color={'error'}>{this.state.formErrors.field_state}</Typography>
+          <Input
+            type={'text'}
+            title={'Postcode'}
+            name={'field_postcode'}
+            value={this.state.field_postcode}
+            placeholder={'Postcode(Required)'}
+            label={'Postcode'}
+            handleChange={this.handleChange}
+            handleFocusOut={this.handleChange}
+            hasError={this.errorClass(this.state.formErrors.field_postcode)}
+          />
+          <Typography color={'error'}>{this.state.formErrors.field_postcode}</Typography>
+          <Input
+            type={'text'}
+            title={'Telephone'}
+            name={'field_telephone'}
+            value={this.state.field_telephone}
+            placeholder={'Telephone(Required)'}
+            label={'Telephone'}
+            handleChange={this.handleChange}
+            handleFocusOut={this.handleChange}
+            hasError={this.errorClass(this.state.formErrors.field_telephone)}
+          />
+          <Typography color={'error'}>{this.state.formErrors.field_telephone}</Typography>
+        </Grid>
+      </Grid>
     );
   }
 }

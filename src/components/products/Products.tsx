@@ -69,7 +69,11 @@ class Products extends React.Component<ProductsPropsInterface, ProductsStateInte
       // Request products
       APIModel.request(APIModel.requestAPI('/products', apiData))
         .promise.then((data: any) => {
-          this.setState({ productsFields: data });
+          if (data.message === '') {
+            console.log('No permission to view products');
+          } else {
+            this.setState({ productsFields: data });
+          }
         })
         .catch((error: {}) => console.log(error));
     }
@@ -92,12 +96,10 @@ class Products extends React.Component<ProductsPropsInterface, ProductsStateInte
           {this.state.productsFields.rows.map((product: ProductsDataInterface, key: number) => {
             return (
               <Grid item xs={12} md={6} lg={4} key={key}>
-                <Paper>
-                  <ProductSingle
-                    product={product}
-                    username={this.props.loginDetails ? this.props.loginDetails.username : ''}
-                  />
-                </Paper>
+                <ProductSingle
+                  product={product}
+                  username={this.props.loginDetails ? this.props.loginDetails.username : ''}
+                />
               </Grid>
             );
           })}

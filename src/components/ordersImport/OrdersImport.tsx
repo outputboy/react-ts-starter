@@ -5,6 +5,12 @@
 'use strict';
 
 // Import the dependent modules
+import Button from '@material-ui/core/Button';
+import Card from '@material-ui/core/Card';
+import CardActions from '@material-ui/core/CardActions';
+import CardContent from '@material-ui/core/CardContent';
+import Grid from '@material-ui/core/Grid';
+import Typography from '@material-ui/core/Typography';
 import * as React from 'react';
 import { connect } from 'react-redux';
 
@@ -16,7 +22,6 @@ import { APIModel } from '../../utils/api/Api.model';
 // Import the dependent interfaces
 import { ExcelDictionary, ExcelRow } from '../../utils/excel/Excel.interface';
 import { OrdersImportPropsInterface, OrdersImportStateInterface } from './OrdersImport.interface';
-const base64 = require('base-64');
 
 class OrdersImport extends React.Component<OrdersImportPropsInterface, OrdersImportStateInterface> {
   // constructor
@@ -42,7 +47,7 @@ class OrdersImport extends React.Component<OrdersImportPropsInterface, OrdersImp
         .promise.then((data: any) => {
           console.log(data);
         })
-        .catch((error: {}) => console.log(error));
+        .catch((error: {}) => console.log(`Sorry no permission${error}`));
     } else {
       alert('Sorry, please fill in the form.');
     }
@@ -112,28 +117,31 @@ class OrdersImport extends React.Component<OrdersImportPropsInterface, OrdersImp
 
   // render all product card
   render() {
-    console.log(this.props.loginDetails);
     return (
-      <div className="container">
-        <div className="row">
-          <div className="col m9 s12">
-            <div className="card blue-grey darken-1">
-              <div className="card-content white-text">
-                <span className="card-title">Upload Your Orders</span>
-                <p>Please upload Excel csv file only. Fields must include </p>
-                <p>
-                  *serial_number *first_name *last_name *address1 *suburb *state *postcode *telephone *sku *qty *comment
-                </p>
-              </div>
-              <div className="card-action">
-                <ReactFileReader handleFiles={this.handleFiles} fileTypes={'.csv'}>
-                  <button className="blue btn">Upload</button>
-                </ReactFileReader>
-              </div>
-            </div>
-          </div>
-        </div>
-      </div>
+      <Grid container>
+        <Grid item xs={12}>
+          <Card>
+            <CardContent>
+              <Typography variant={'title'} gutterBottom>
+                Upload Your Orders
+              </Typography>
+              <Typography variant={'subheading'} gutterBottom>
+                Please upload Excel csv file only. Fields must include{' '}
+              </Typography>
+              <Typography gutterBottom>
+                *serial_number *first_name *last_name *address1 *suburb *state *postcode *telephone *sku *qty *comment
+              </Typography>
+            </CardContent>
+            <CardActions className="card-action">
+              <ReactFileReader handleFiles={this.handleFiles} fileTypes={'.csv'}>
+                <Button variant="contained" color="primary">
+                  Orders Upload
+                </Button>
+              </ReactFileReader>
+            </CardActions>
+          </Card>
+        </Grid>
+      </Grid>
     );
   }
 }

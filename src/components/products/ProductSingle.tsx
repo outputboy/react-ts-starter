@@ -22,9 +22,7 @@ import { CartDataInterface } from '../cart/Cart.interface';
 import { ProductSinglePropsInterface, ProductSingleStateInterface, ProductsDataInterface } from './Products.interface';
 
 const styles = {
-  card: {
-    minWidth: 275,
-  },
+  card: {},
   bullet: {
     display: 'inline-block',
     margin: '0 2px',

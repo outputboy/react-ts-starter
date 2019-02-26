@@ -5,6 +5,12 @@
 'use strict';
 
 // Import the dependent modules
+import Button from '@material-ui/core/Button';
+import Card from '@material-ui/core/Card';
+import CardActions from '@material-ui/core/CardActions';
+import CardContent from '@material-ui/core/CardContent';
+import Grid from '@material-ui/core/Grid';
+import Typography from '@material-ui/core/Typography';
 import * as React from 'react';
 import { connect } from 'react-redux';
 
@@ -16,6 +22,7 @@ import { APIModel } from '../../utils/api/Api.model';
 // Import the dependent interfaces
 import { ExcelDictionary, ExcelRow } from '../../utils/excel/Excel.interface';
 import { ProductsImportPropsInterface, ProductsImportStateInterface } from './ProductsImport.interface';
+
 const base64 = require('base-64');
 
 class ProductsImport extends React.Component<ProductsImportPropsInterface, ProductsImportStateInterface> {
@@ -38,11 +45,11 @@ class ProductsImport extends React.Component<ProductsImportPropsInterface, Produ
       const apiData = { method: 'POST', headers: myHeaders, body: JSON.stringify(excelData) };
 
       // Request products
-      APIModel.request(APIModel.requestAPI('/drupalup/add-products', apiData))
+      APIModel.request(APIModel.requestAPI('/drupalup/add_product', apiData))
         .promise.then((data: any) => {
           console.log(data);
         })
-        .catch((error: {}) => console.log(error));
+        .catch((error: {}) => console.log(`Sorry no permission${error}`));
     } else {
       alert('Sorry, please fill in the form.');
     }
@@ -54,17 +61,10 @@ class ProductsImport extends React.Component<ProductsImportPropsInterface, Produ
       if (typeof result === 'string') {
         const allTextLines = result.split(/\r\n|\n/);
         if (
-          allTextLines[0].indexOf('serial_number') === -1 ||
-          allTextLines[0].indexOf('first_name') === -1 ||
-          allTextLines[0].indexOf('last_name') === -1 ||
-          allTextLines[0].indexOf('address1') === -1 ||
-          allTextLines[0].indexOf('suburb') === -1 ||
-          allTextLines[0].indexOf('state') === -1 ||
-          allTextLines[0].indexOf('postcode') === -1 ||
-          allTextLines[0].indexOf('telephone') === -1 ||
           allTextLines[0].indexOf('sku') === -1 ||
+          allTextLines[0].indexOf('price') === -1 ||
           allTextLines[0].indexOf('qty') === -1 ||
-          allTextLines[0].indexOf('comment') === -1
+          allTextLines[0].indexOf('title') === -1
         ) {
           alert('not enough data');
         } else {
@@ -113,26 +113,28 @@ class ProductsImport extends React.Component<ProductsImportPropsInterface, Produ
   // render all product card
   render() {
     return (
-      <div className="container">
-        <div className="row">
-          <div className="col m9 s12">
-            <div className="card blue-grey darken-1">
-              <div className="card-content white-text">
-                <span className="card-title">Upload Your Orders</span>
-                <p>Please upload Excel csv file only. Fields must include </p>
-                <p>
-                  *serial_number *first_name *last_name *address1 *suburb *state *postcode *telephone *sku *qty *comment
-                </p>
-              </div>
-              <div className="card-action">
-                <ReactFileReader handleFiles={this.handleFiles} fileTypes={'.csv'}>
-                  <button className="blue btn">Upload</button>
-                </ReactFileReader>
-              </div>
-            </div>
-          </div>
-        </div>
-      </div>
+      <Grid container>
+        <Grid item xs={12}>
+          <Card>
+            <CardContent>
+              <Typography variant={'title'} gutterBottom>
+                Upload Your Products
+              </Typography>
+              <Typography variant={'subheading'} gutterBottom>
+                Please upload Excel csv file only. Fields must include{' '}
+              </Typography>
+              <Typography gutterBottom>*sku *price *qty *title</Typography>
+            </CardContent>
+            <CardActions className="card-action">
+              <ReactFileReader handleFiles={this.handleFiles} fileTypes={'.csv'}>
+                <Button variant="contained" color="primary">
+                  Products Upload
+                </Button>
+              </ReactFileReader>
+            </CardActions>
+          </Card>
+        </Grid>
+      </Grid>
     );
   }
 }
