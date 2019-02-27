@@ -21,6 +21,7 @@ import TheSnackbar from './TheSnackbar';
 import Cart from './cart/Cart';
 import Checkout from './checkout/Checkout';
 import Success from './checkout/Success';
+import DataDownload from './download/DataDownload';
 import Home from './home/Home';
 import Orders from './orders/Orders';
 import OrdersImport from './ordersImport/OrdersImport';
@@ -98,6 +99,7 @@ class App extends React.Component<Props & WithStyles<ClassKeys>> {
               <Route exact path={routes.cart} component={Cart} />
               <Route exact path={routes.productsImport} component={ProductsImport} />
               <Route exact path={routes.ordersImport} component={OrdersImport} />
+              <Route exact path={routes.dataDownload} component={DataDownload} />
               <Route component={NotFound} />
             </Switch>
           </Grid>

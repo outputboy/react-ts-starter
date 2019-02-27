@@ -117,13 +117,13 @@ class ProductsImport extends React.Component<ProductsImportPropsInterface, Produ
         <Grid item xs={12}>
           <Card>
             <CardContent>
-              <Typography variant={'title'} gutterBottom>
+              <Typography variant={'h4'} gutterBottom>
                 Upload Your Products
               </Typography>
-              <Typography variant={'subheading'} gutterBottom>
-                Please upload Excel csv file only. Fields must include{' '}
+              <Typography variant={'h5'} gutterBottom>
+                Please upload Excel csv file only.
               </Typography>
-              <Typography gutterBottom>*sku *price *qty *title</Typography>
+              <Typography gutterBottom>Fields must include *sku *price *qty *title</Typography>
             </CardContent>
             <CardActions className="card-action">
               <ReactFileReader handleFiles={this.handleFiles} fileTypes={'.csv'}>

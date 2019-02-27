@@ -71,7 +71,7 @@ class Sidebar extends React.Component {
             </ListItemIcon>
             <ListItemText primary="Import Orders" />
           </ListItem>
-          <ListItem button component="a" href={routes.test}>
+          <ListItem button component="a" href={routes.dataDownload}>
             <ListItemIcon>
               <FileDownloadIcon color={'primary'} />
             </ListItemIcon>

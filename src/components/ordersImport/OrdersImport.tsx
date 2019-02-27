@@ -23,6 +23,8 @@ import { APIModel } from '../../utils/api/Api.model';
 import { ExcelDictionary, ExcelRow } from '../../utils/excel/Excel.interface';
 import { OrdersImportPropsInterface, OrdersImportStateInterface } from './OrdersImport.interface';
 
+const base64 = require('base-64');
+
 class OrdersImport extends React.Component<OrdersImportPropsInterface, OrdersImportStateInterface> {
   // constructor
   constructor(props: OrdersImportPropsInterface) {
@@ -33,11 +35,11 @@ class OrdersImport extends React.Component<OrdersImportPropsInterface, OrdersImp
   fetchData = (excelData: ExcelDictionary) => {
     if (this.props.loginDetails) {
       const myHeaders = new Headers();
-      // const loginDetails = `${'306380373'}:${'123456'}`;
-      // const encodeLogin = `Basic ${base64.encode(loginDetails)}`;
+      const loginDetails = `${'306380373'}:${'123456'}`;
+      const encodeLogin = `Basic ${base64.encode(loginDetails)}`;
 
       myHeaders.append('Content-Type', 'application/json');
-      // myHeaders.append('Authorization', encodeLogin);
+      myHeaders.append('Authorization', encodeLogin);
 
       // construct body info
       const apiData = { method: 'POST', headers: myHeaders, body: JSON.stringify(excelData) };
@@ -122,14 +124,15 @@ class OrdersImport extends React.Component<OrdersImportPropsInterface, OrdersImp
         <Grid item xs={12}>
           <Card>
             <CardContent>
-              <Typography variant={'title'} gutterBottom>
+              <Typography variant={'h4'} gutterBottom>
                 Upload Your Orders
               </Typography>
-              <Typography variant={'subheading'} gutterBottom>
-                Please upload Excel csv file only. Fields must include{' '}
+              <Typography variant={'h5'} gutterBottom>
+                Please upload Excel csv file only.
               </Typography>
               <Typography gutterBottom>
-                *serial_number *first_name *last_name *address1 *suburb *state *postcode *telephone *sku *qty *comment
+                Fields must include *serial_number *first_name *last_name *address1 *suburb *state *postcode *telephone
+                *sku *qty *comment
               </Typography>
             </CardContent>
             <CardActions className="card-action">
