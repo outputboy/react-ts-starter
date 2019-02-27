@@ -18,6 +18,7 @@ import Paper from '@material-ui/core/Paper';
 
 // Import the dependent components
 import ProductSingle from './ProductSingle';
+import ProductSearch from './ProductsSearch';
 const base64 = require('base-64');
 
 // Import the dependent interfaces
@@ -50,11 +51,11 @@ class Products extends React.Component<ProductsPropsInterface, ProductsStateInte
 
   // Fetch products data
   componentWillMount() {
-    this.fetchProducts();
+    this.fetchProducts('/products');
   }
 
   // Fetch products based on search keywords
-  fetchProducts() {
+  fetchProducts(fetchUrl: string) {
     if (this.props.loginDetails) {
       // Init headers
       const myHeaders = new Headers();
@@ -67,7 +68,7 @@ class Products extends React.Component<ProductsPropsInterface, ProductsStateInte
       const apiData = { method: 'GET', headers: myHeaders };
 
       // Request products
-      APIModel.request(APIModel.requestAPI('/products', apiData))
+      APIModel.request(APIModel.requestAPI(fetchUrl, apiData))
         .promise.then((data: any) => {
           if (data.message === '') {
             console.log('No permission to view products');
@@ -84,6 +85,11 @@ class Products extends React.Component<ProductsPropsInterface, ProductsStateInte
     return (
       <React.Fragment>
         <Grid container spacing={24}>
+          <Grid item xs={12}>
+            <Paper>
+              <ProductSearch fetchProducts={this.fetchProducts} />
+            </Paper>
+          </Grid>
           <Grid item xs={12}>
             <Paper>
               <Link to="/checkout" style={styles.linkStyles}>
