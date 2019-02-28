@@ -77,11 +77,11 @@ class Sidebar extends React.Component {
             </ListItemIcon>
             <ListItemText primary="Data Download" />
           </ListItem>
-          <ListItem button component="a" href={routes.test}>
+          <ListItem button component="a" href={routes.faq}>
             <ListItemIcon>
               <ReportProblemIcon color={'primary'} />
             </ListItemIcon>
-            <ListItemText primary="Report" />
+            <ListItemText primary="FAQ" />
           </ListItem>
         </List>
       </React.Fragment>

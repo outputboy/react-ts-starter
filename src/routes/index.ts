@@ -10,6 +10,7 @@ const routes = {
   ordersImport: '/orders-import',
   productsImport: '/products-import',
   dataDownload: '/data-download',
+  faq: '/faq',
 };
 
 export default routes;

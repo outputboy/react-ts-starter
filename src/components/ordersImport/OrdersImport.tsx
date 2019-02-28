@@ -35,7 +35,7 @@ class OrdersImport extends React.Component<OrdersImportPropsInterface, OrdersImp
   fetchData = (excelData: ExcelDictionary) => {
     if (this.props.loginDetails) {
       const myHeaders = new Headers();
-      const loginDetails = `${'306380373'}:${'123456'}`;
+      const loginDetails = `${this.props.loginDetails.username}:${this.props.loginDetails.password}`;
       const encodeLogin = `Basic ${base64.encode(loginDetails)}`;
 
       myHeaders.append('Content-Type', 'application/json');
