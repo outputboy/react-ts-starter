@@ -101,7 +101,7 @@ class Checkout extends React.Component<CheckoutPropsInterface, CheckoutStateInte
           APIModel.request(APIModel.requestAPI('/commerce/order/create', this.props.loginDetails, myBody))
             .promise.then((data: any) => {
               if (data.order_id[0].value) {
-                this.processPayment(data.order_id[0].value);
+                this.props.history.push('/orders');
               } else {
                 alert('Sorry, cannot create order.');
               }
@@ -114,8 +114,8 @@ class Checkout extends React.Component<CheckoutPropsInterface, CheckoutStateInte
     }
   }
 
-  // import { APIModel } from '../../utils/api/Api.model';
-  // fetch products data
+  /*
+  // Process payment to backend and retrieve paypal payment url
   processPayment(orderId: number) {
     if (this.props.loginDetails) {
       const myBody = {
@@ -146,6 +146,7 @@ class Checkout extends React.Component<CheckoutPropsInterface, CheckoutStateInte
         .catch((error: {}) => console.log(error));
     }
   }
+  */
 
   // render all product card
   render() {

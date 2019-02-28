@@ -8,9 +8,11 @@
 import Button from '@material-ui/core/Button';
 import Grid from '@material-ui/core/Grid';
 import { StyleRulesCallback, StyledComponentProps, WithStyles, withStyles } from '@material-ui/core/styles';
+import createHistory from 'history/createBrowserHistory';
 import React from 'react';
 import { connect } from 'react-redux';
-import { Route, Switch } from 'react-router';
+import { Switch } from 'react-router';
+import { Route, Router } from 'react-router-dom';
 
 // Import the dependent components
 import { snackbarPush } from '../actions';
@@ -68,6 +70,8 @@ const styles: StyleRulesCallback<ClassKeys> = (themeDefault) => ({
  *
  * @return UnregisterCallback
  */
+const history = createHistory();
+
 class App extends React.Component<Props & WithStyles<ClassKeys>> {
   testSnackbar = () => {
     this.props.snackbarPush({
@@ -90,20 +94,39 @@ class App extends React.Component<Props & WithStyles<ClassKeys>> {
             <Sidebar />
           </Grid>
           <Grid item xs={12} md={8}>
-            <Switch>
+            <Router history={history}>
               <Route exact path={routes.home} component={Home} />
+            </Router>
+            <Router history={history}>
               <Route exact path={routes.test} component={Test} />
+            </Router>
+            <Router history={history}>
               <Route exact path={routes.products} component={Products} />
+            </Router>
+            <Router history={history}>
               <Route exact path={routes.orders} component={Orders} />
+            </Router>
+            <Router history={history}>
               <Route exact path={routes.checkout} component={Checkout} />
+            </Router>
+            <Router history={history}>
               <Route exact path={routes.success} component={Success} />
+            </Router>
+            <Router history={history}>
               <Route exact path={routes.cart} component={Cart} />
+            </Router>
+            <Router history={history}>
               <Route exact path={routes.productsImport} component={ProductsImport} />
+            </Router>
+            <Router history={history}>
               <Route exact path={routes.ordersImport} component={OrdersImport} />
+            </Router>
+            <Router history={history}>
               <Route exact path={routes.dataDownload} component={DataDownload} />
+            </Router>
+            <Router history={history}>
               <Route exact path={routes.faq} component={Faq} />
-              <Route component={NotFound} />
-            </Switch>
+            </Router>
           </Grid>
 
           <Button color="secondary" onClick={this.testSnackbar} variant="contained" className={classes.cartPos}>

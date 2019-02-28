@@ -2,6 +2,7 @@
  * Interfaces for the orders component.
  */
 'use strict';
+import { RouteComponentProps } from 'react-router';
 import { AddressValid } from '../../utils/address/Address.interface';
 import { CartDataInterface } from '../cart/Cart.interface';
 import { LoginInterface } from '../login/Login.interface';
@@ -9,7 +10,7 @@ import { LoginInterface } from '../login/Login.interface';
 /**
  * Checkout properties interface.
  */
-export interface CheckoutPropsInterface {
+export interface CheckoutPropsInterface extends RouteComponentProps {
   loginDetails?: LoginInterface;
   address?: AddressValid;
   cart?: CartDataInterface[];

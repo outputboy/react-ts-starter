@@ -8744,6 +8744,13 @@ react-lifecycles-compat@^3.0.2, react-lifecycles-compat@^3.0.4:
   resolved "https://registry.yarnpkg.com/react-lifecycles-compat/-/react-lifecycles-compat-3.0.4.tgz#4f1a273afdfc8f3488a8c516bfda78f872352362"
   integrity sha512-fBASbA6LnOU9dOU2eW7aQ8xmYBSXUIWr+UmF9b1efZBazGNO+rcXT/icdKnYm2pTwcRylVUYwW7H1PHfLekVzA==
 
+react-paypal-button-v2@^2.2.3:
+  version "2.2.3"
+  resolved "https://registry.yarnpkg.com/react-paypal-button-v2/-/react-paypal-button-v2-2.2.3.tgz#5aaa40ddf8e5101ad311ef47633665efcc83ddfd"
+  integrity sha512-l4mx3G7rmHh7PmONlYBsa+Url/aBI6G3gputyEZQjlDQE/JdZnC5qFKJZqp2/WAJa1Hz+A/kPHtWbtJPyHE3nw==
+  dependencies:
+    "@babel/polyfill" "^7.2.5"
+
 react-paypal-express-checkout@^1.0.5:
   version "1.0.5"
   resolved "https://registry.yarnpkg.com/react-paypal-express-checkout/-/react-paypal-express-checkout-1.0.5.tgz#8a2a24dce92551d32daa55a43e6cdcdafb6fec15"
