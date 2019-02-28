@@ -34,18 +34,8 @@ class ProductsImport extends React.Component<ProductsImportPropsInterface, Produ
   // fetch products data
   fetchData = (excelData: ExcelDictionary) => {
     if (this.props.loginDetails) {
-      const myHeaders = new Headers();
-      const loginDetails = `${this.props.loginDetails.username}:${this.props.loginDetails.password}`;
-      const encodeLogin = `Basic ${base64.encode(loginDetails)}`;
-
-      myHeaders.append('Content-Type', 'application/json');
-      myHeaders.append('Authorization', encodeLogin);
-
-      // construct body info
-      const apiData = { method: 'POST', headers: myHeaders, body: JSON.stringify(excelData) };
-
       // Request products
-      APIModel.request(APIModel.requestAPI('/drupalup/add_product', apiData))
+      APIModel.request(APIModel.requestAPI('/drupalup/add_product', this.props.loginDetails, excelData))
         .promise.then((data: any) => {
           console.log(data);
         })

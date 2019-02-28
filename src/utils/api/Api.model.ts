@@ -4,8 +4,11 @@
  */
 'use strict';
 // Import the dependent interfaces.
+import { LoginInterface } from '../../components/login/Login.interface';
 import { RequestType } from './Api.enum';
 import { RequestInterface } from './Api.interface';
+
+const base64 = require('base-64');
 
 /**
  * API Class.
@@ -18,9 +21,20 @@ export class APIModel {
   }
 
   // perform a request to the server api
-  static async requestAPI<T>(path: string, data: RequestInit): Promise<T> {
-    // Set the default request headers.
-    const defaults: RequestInit = data;
+  static async requestAPI<T>(path: string, login: LoginInterface, myBody?: any): Promise<T> {
+    // init headers with login authorization
+    const myHeaders = new Headers();
+    const loginDetails = `${login.username}:${login.password}`;
+    const encodeLogin = `Basic ${base64.encode(loginDetails)}`;
+
+    myHeaders.append('Content-Type', 'application/json');
+    myHeaders.append('Authorization', encodeLogin);
+
+    let defaults: RequestInit = { method: 'GET', headers: myHeaders };
+    // if body then post
+    if (myBody) {
+      defaults = { method: 'POST', headers: myHeaders, body: JSON.stringify(myBody) };
+    }
 
     // Define the api path to be requested.
     path = `${RequestType.URL}${path}`;

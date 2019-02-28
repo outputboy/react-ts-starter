@@ -5,7 +5,6 @@
 'use strict';
 
 // Import style
-import Button from '@material-ui/core/Button';
 import Checkbox from '@material-ui/core/Checkbox';
 import FormControlLabel from '@material-ui/core/FormControlLabel';
 import Grid from '@material-ui/core/Grid';
@@ -52,18 +51,8 @@ class Orders extends React.Component<OrdersPropsInterface, OrdersStateInterface>
   // Fetch orders based on search keywords
   fetchOrders() {
     if (this.props.loginDetails) {
-      // Init headers
-      const myHeaders = new Headers();
-
-      const loginDetails = `${this.props.loginDetails.username}:${this.props.loginDetails.password}`;
-      const encodeLogin = `Basic ${base64.encode(loginDetails)}`;
-      myHeaders.append('Content-Type', 'application/json');
-      myHeaders.append('Authorization', encodeLogin);
-
-      const apiData = { method: 'GET', headers: myHeaders };
-
       // Request orders
-      APIModel.request(APIModel.requestAPI('/orders', apiData))
+      APIModel.request(APIModel.requestAPI('/orders', this.props.loginDetails))
         .promise.then((data: any) => {
           this.setState({ ordersFields: data });
         })
@@ -99,19 +88,8 @@ class Orders extends React.Component<OrdersPropsInterface, OrdersStateInterface>
     const ordersID: string[] = this.state.submitOrders;
 
     if (this.props.loginDetails) {
-      // Init headers
-      const myHeaders = new Headers();
-
-      const loginDetails = `${this.props.loginDetails.username}:${this.props.loginDetails.password}`;
-      const encodeLogin = `Basic ${base64.encode(loginDetails)}`;
-      myHeaders.append('Content-Type', 'application/json');
-      myHeaders.append('Authorization', encodeLogin);
-
-      const apiData = { method: 'POST', headers: myHeaders, body: JSON.stringify(ordersID) };
-
       // Request orders
-
-      APIModel.request(APIModel.requestAPI('/parallel_pay', apiData))
+      APIModel.request(APIModel.requestAPI('/parallel_pay', this.props.loginDetails, ordersID))
         .promise.then((data: any) => {
           console.log(data);
         })
@@ -167,21 +145,13 @@ class Orders extends React.Component<OrdersPropsInterface, OrdersStateInterface>
               if (this.props.loginDetails) {
                 const passOrderIds: string = this.state.submitOrders.join();
 
-                const myHeaders = new Headers();
-                const loginDetails = `${this.props.loginDetails.username}:${this.props.loginDetails.password}`;
-                const encodeLogin = `Basic ${base64.encode(loginDetails)}`;
-                myHeaders.append('Content-Type', 'application/json');
-                myHeaders.append('Authorization', encodeLogin);
-
                 const body = {
                   paypal_order_id: data.orderID,
                   individual_order_ids: passOrderIds,
                 };
 
-                const apiData = { method: 'POST', headers: myHeaders, body: JSON.stringify(body) };
-
                 // Request products
-                APIModel.request(APIModel.requestAPI('/drupalup/bulk_orders', apiData))
+                APIModel.request(APIModel.requestAPI('/drupalup/bulk_orders', this.props.loginDetails, body))
                   .promise.then((responseData: any) => {
                     console.log(responseData);
                   })

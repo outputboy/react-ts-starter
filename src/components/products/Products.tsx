@@ -57,18 +57,8 @@ class Products extends React.Component<ProductsPropsInterface, ProductsStateInte
   // Fetch products based on search keywords
   fetchProducts(fetchUrl: string) {
     if (this.props.loginDetails) {
-      // Init headers
-      const myHeaders = new Headers();
-      const loginDetails = `${this.props.loginDetails.username}:${this.props.loginDetails.password}`;
-      const encodeLogin = `Basic ${base64.encode(loginDetails)}`;
-
-      myHeaders.append('Content-Type', 'application/json');
-      myHeaders.append('Authorization', encodeLogin);
-
-      const apiData = { method: 'GET', headers: myHeaders };
-
       // Request products
-      APIModel.request(APIModel.requestAPI(fetchUrl, apiData))
+      APIModel.request(APIModel.requestAPI(fetchUrl, this.props.loginDetails))
         .promise.then((data: any) => {
           if (data.message === '') {
             console.log('No permission to view products');

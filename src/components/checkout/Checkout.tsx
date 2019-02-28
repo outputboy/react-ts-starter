@@ -34,10 +34,6 @@ class Checkout extends React.Component<CheckoutPropsInterface, CheckoutStateInte
   // fetch products data
   submitOrder() {
     if (this.props.loginDetails) {
-      const myHeaders = new Headers();
-      const loginDetails = `${this.props.loginDetails.username}:${this.props.loginDetails.password}`;
-      const encodeLogin = `Basic ${base64.encode(loginDetails)}`;
-
       const customerInfo: AddressValid | undefined = this.props.address;
 
       const orderItems: IndividualProductOrderInterface[] = [];
@@ -61,9 +57,6 @@ class Checkout extends React.Component<CheckoutPropsInterface, CheckoutStateInte
       if (customerInfo && this.props.cart) {
         // Check if address form is filled
         if (customerInfo.form_valid) {
-          myHeaders.append('Content-Type', 'application/json');
-          myHeaders.append('Authorization', encodeLogin);
-
           // construct body info
           const myBody = {
             order: {
@@ -104,10 +97,8 @@ class Checkout extends React.Component<CheckoutPropsInterface, CheckoutStateInte
             },
           };
 
-          const apiData = { method: 'POST', headers: myHeaders, body: JSON.stringify(myBody) };
-
           // Request products
-          APIModel.request(APIModel.requestAPI('/commerce/order/create', apiData))
+          APIModel.request(APIModel.requestAPI('/commerce/order/create', this.props.loginDetails, myBody))
             .promise.then((data: any) => {
               if (data.order_id[0].value) {
                 this.processPayment(data.order_id[0].value);
@@ -127,13 +118,6 @@ class Checkout extends React.Component<CheckoutPropsInterface, CheckoutStateInte
   // fetch products data
   processPayment(orderId: number) {
     if (this.props.loginDetails) {
-      const myHeaders = new Headers();
-      const loginDetails = `${this.props.loginDetails.username}:${this.props.loginDetails.password}`;
-      const encodeLogin = `Basic ${base64.encode(loginDetails)}`;
-
-      myHeaders.append('Content-Type', 'application/json');
-      myHeaders.append('Authorization', encodeLogin);
-
       const myBody = {
         gateway: 'paypal_test',
         type: 'paypal_ec',
@@ -145,10 +129,8 @@ class Checkout extends React.Component<CheckoutPropsInterface, CheckoutStateInte
         },
       };
 
-      const apiData = { method: 'POST', headers: myHeaders, body: JSON.stringify(myBody) };
-
       // Request products
-      APIModel.request(APIModel.requestAPI(`/commerce/payment/create/${orderId}`, apiData))
+      APIModel.request(APIModel.requestAPI(`/commerce/payment/create/${orderId}`, this.props.loginDetails, myBody))
         .promise.then((data: any) => {
           // open paypal page to process payment
           window.open(data.paypalUrl, '_self');

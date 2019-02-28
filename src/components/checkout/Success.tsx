@@ -9,7 +9,6 @@ import * as React from 'react';
 import { connect } from 'react-redux';
 
 // Import the dependent components
-import { RequestType } from '../../utils/api/Api.enum';
 import { APIModel } from '../../utils/api/Api.model';
 
 // Import the dependent interfaces
@@ -25,10 +24,6 @@ class Checkout extends React.Component<SuccessPropsInterface, SuccessStateInterf
   // fetch products data
   componentDidMount() {
     if (location.search && this.props.loginDetails) {
-      const myHeaders = new Headers();
-      const loginDetails = `${this.props.loginDetails.username}:${this.props.loginDetails.password}`;
-      const encodeLogin = `Basic ${base64.encode(loginDetails)}`;
-
       let orderId = '';
       let paymentId = '';
 
@@ -37,13 +32,12 @@ class Checkout extends React.Component<SuccessPropsInterface, SuccessStateInterf
         paymentId = this.props.paymentInfo.paymentId;
       }
 
-      myHeaders.append('Content-Type', 'application/json');
-      myHeaders.append('Authorization', encodeLogin);
-
-      const apiData = { method: 'POST', headers: myHeaders };
+      const myBody = {};
 
       // Request products
-      APIModel.request(APIModel.requestAPI(`/commerce/payment/capture/${orderId}/${paymentId}`, apiData))
+      APIModel.request(
+        APIModel.requestAPI(`/commerce/payment/capture/${orderId}/${paymentId}`, this.props.loginDetails, myBody),
+      )
         .promise.then((data: any) => {
           console.log(data);
         })
