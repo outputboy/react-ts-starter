@@ -1,0 +1,175 @@
+/**
+ * Pager.scss
+ * Styles for the pager component.
+ */
+.app--state-act .block--pager-navigation > a:hover > svg {
+  fill: #4392B0; }
+
+.app--state-act .select--pager .sf__dropdown-indicator {
+  color: #4392B0; }
+
+.app--state-act .block--pager-numbers > ul > li > a {
+  background-color: #4392B0; }
+
+.app--state-nat .block--pager-navigation > a:hover > svg {
+  fill: #3FAE49; }
+
+.app--state-nat .select--pager .sf__dropdown-indicator {
+  color: #3FAE49; }
+
+.app--state-nat .block--pager-numbers > ul > li > a {
+  background-color: #3FAE49; }
+
+.app--state-nsw .block--pager-navigation > a:hover > svg {
+  fill: #92BDE3; }
+
+.app--state-nsw .select--pager .sf__dropdown-indicator {
+  color: #92BDE3; }
+
+.app--state-nsw .block--pager-numbers > ul > li > a {
+  background-color: #92BDE3; }
+
+.app--state-nt .block--pager-navigation > a:hover > svg {
+  fill: #E47646; }
+
+.app--state-nt .select--pager .sf__dropdown-indicator {
+  color: #E47646; }
+
+.app--state-nt .block--pager-numbers > ul > li > a {
+  background-color: #E47646; }
+
+.app--state-qld .block--pager-navigation > a:hover > svg {
+  fill: #682E49; }
+
+.app--state-qld .select--pager .sf__dropdown-indicator {
+  color: #682E49; }
+
+.app--state-qld .block--pager-numbers > ul > li > a {
+  background-color: #682E49; }
+
+.app--state-tas .block--pager-navigation > a:hover > svg {
+  fill: #DB4D43; }
+
+.app--state-tas .select--pager .sf__dropdown-indicator {
+  color: #DB4D43; }
+
+.app--state-tas .block--pager-numbers > ul > li > a {
+  background-color: #DB4D43; }
+
+.app--state-vic .block--pager-navigation > a:hover > svg {
+  fill: #16427C; }
+
+.app--state-vic .select--pager .sf__dropdown-indicator {
+  color: #16427C; }
+
+.app--state-vic .block--pager-numbers > ul > li > a {
+  background-color: #16427C; }
+
+.app--state-sa .block--pager-navigation > a:hover > svg {
+  fill: #B4322E; }
+
+.app--state-sa .select--pager .sf__dropdown-indicator {
+  color: #B4322E; }
+
+.app--state-sa .block--pager-numbers > ul > li > a {
+  background-color: #B4322E; }
+
+.app--state-wa .block--pager-navigation > a:hover > svg {
+  fill: #F8CF47; }
+
+.app--state-wa .select--pager .sf__dropdown-indicator {
+  color: #F8CF47; }
+
+.app--state-wa .block--pager-numbers > ul > li > a {
+  background-color: #F8CF47; }
+
+/**
+ * Pager block.
+ */
+.block--pager.row {
+  flex-wrap: wrap;
+  text-align: center;
+  /**
+   * Previous and next arrows.
+   */
+  /**
+   * Select field styles.
+   */ }
+  .block--pager.row .block--pager-navigation {
+    color: #363937; }
+    .block--pager.row .block--pager-navigation.block--pager-navigation-prev {
+      text-align: right; }
+    .block--pager.row .block--pager-navigation.block--pager-navigation-next {
+      text-align: left; }
+    .block--pager.row .block--pager-navigation > a > svg {
+      width: 30px;
+      height: 30px; }
+    .block--pager.row .block--pager-navigation > a.disabled:hover {
+      cursor: default; }
+      .block--pager.row .block--pager-navigation > a.disabled:hover > svg {
+        fill: #363937; }
+  .block--pager.row .select--pager {
+    margin: 5px 0 10px; }
+    .block--pager.row .select--pager .sf__placeholder {
+      font-weight: normal;
+      color: #363937; }
+    .block--pager.row .select--pager .sf__control {
+      border: 2px solid #D8D8D8; }
+    .block--pager.row .select--pager .sf__indicator-separator {
+      background: none; }
+    .block--pager.row .select--pager .sf__multi-value {
+      background-color: #DDDDDD;
+      padding: 3px; }
+      .block--pager.row .select--pager .sf__multi-value .sf__multi-value__label {
+        color: #363937;
+        font-weight: 600; }
+      .block--pager.row .select--pager .sf__multi-value .sf__multi-value__remove {
+        background-color: #ECEEEC;
+        border-radius: 100%; }
+        .block--pager.row .select--pager .sf__multi-value .sf__multi-value__remove > svg {
+          color: #5F5F5E; }
+
+/**
+   * Page numbers styles.
+   */
+.block--pager-numbers > ul > li {
+  margin: 10px 5px;
+  background: none;
+  padding-left: 0; }
+
+.block--pager-numbers > ul > li.active {
+  background-color: transparent; }
+
+.block--pager-numbers > ul > li > a {
+  width: 50px;
+  height: 50px;
+  padding: 10px;
+  border-radius: 50%;
+  cursor: pointer;
+  color: #F1F1F1; }
+
+.block--pager-numbers > ul > li.active > a {
+  line-height: 25px;
+  border: 2px solid #D8D8D8;
+  background-color: transparent;
+  color: #363937; }
+
+.block--pager-numbers > ul > li.first-pager {
+  position: relative;
+  padding-right: 30px; }
+  .block--pager-numbers > ul > li.first-pager::before {
+    position: absolute;
+    top: 30%;
+    right: 0;
+    content: '\2022\2022\2022';
+    font-size: 20px; }
+
+.block--pager-numbers > ul > li.last-pager {
+  position: relative;
+  padding-left: 30px; }
+  .block--pager-numbers > ul > li.last-pager::before {
+    position: absolute;
+    top: 30%;
+    left: 0;
+    content: '\2022\2022\2022';
+    font-size: 20px; }

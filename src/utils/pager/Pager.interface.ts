@@ -4,13 +4,6 @@
  */
 'use strict';
 
-export interface PagerData {
-  current_page: number;
-  items_per_page: number;
-  total_items: string;
-  total_pages: number;
-}
-
 /**
  * Page links interface.
  */
@@ -23,7 +16,11 @@ export interface PagerLink {
  * Pager properties interface.
  */
 export interface PagerProps {
-  current_page: string;
+  current_page: number;
+  total_items: number;
+  total_pages: number;
+  items_per_page: number;
+  currentPath: string;
   updateQuery: Function;
 }
 
@@ -35,4 +32,14 @@ export interface PagerState {
   previousLink: PagerLink;
   nextLink: PagerLink;
   currentLink: PagerLink;
+  windowWidth: number;
+}
+
+/**
+ * Pager number properties interface.
+ */
+export interface PagerNumberProps {
+  current_page: number;
+  links: Array<PagerLink>;
+  updateQuery: Function;
 }

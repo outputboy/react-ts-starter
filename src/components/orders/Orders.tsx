@@ -27,19 +27,6 @@ class Orders extends React.Component<OrdersPropsInterface, OrdersStateInterface>
   constructor(props: OrdersPropsInterface) {
     super(props);
 
-    this.state = {
-      ordersFields: {
-        rows: [],
-        pager: {
-          current_page: 0,
-          items_per_page: 0,
-          total_items: '',
-          total_pages: 0,
-        },
-      },
-      paymentTotal: 0,
-      submitOrders: [],
-    };
     this.fetchOrders = this.fetchOrders.bind(this);
   }
 
@@ -99,79 +86,82 @@ class Orders extends React.Component<OrdersPropsInterface, OrdersStateInterface>
 
   // render all orders card
   render() {
-    return (
-      <React.Fragment>
-        {this.state.ordersFields.rows.map((order: OrdersDataInterface, key: number) => {
-          return (
-            <React.Fragment key={key}>
-              <Grid container spacing={24} style={{ margin: '20px 0', backgroundColor: '#eee' }}>
-                <Grid item xs={2}>
-                  <FormControlLabel
-                    control={
-                      order.state === 'Processing' ? (
-                        <React.Fragment />
-                      ) : (
-                        <Checkbox
-                          color="primary"
-                          onChange={this.handleCheckbox}
-                          id={order.order_id}
-                          value={order.total_price__number}
-                        />
-                      )
-                    }
-                    label={order.order_number}
-                  />
+    if (this.state) {
+      return (
+        <React.Fragment>
+          {this.state.ordersFields.rows.map((order: OrdersDataInterface, key: number) => {
+            return (
+              <React.Fragment key={key}>
+                <Grid container spacing={24} style={{ margin: '20px 0', backgroundColor: '#eee' }}>
+                  <Grid item xs={2}>
+                    <FormControlLabel
+                      control={
+                        order.state === 'Processing' ? (
+                          <React.Fragment />
+                        ) : (
+                          <Checkbox
+                            color="primary"
+                            onChange={this.handleCheckbox}
+                            id={order.order_id}
+                            value={order.total_price__number}
+                          />
+                        )
+                      }
+                      label={order.order_number}
+                    />
+                  </Grid>
+                  <Grid item xs={4}>
+                    <Typography>{order.order_items}</Typography>
+                  </Grid>
+                  <Grid item xs={4}>
+                    <Typography>{order.state}</Typography>
+                  </Grid>
+                  <Grid item xs={2}>
+                    <Typography>{order.total_price__number}</Typography>
+                  </Grid>
                 </Grid>
-                <Grid item xs={4}>
-                  <Typography>{order.order_items}</Typography>
-                </Grid>
-                <Grid item xs={4}>
-                  <Typography>{order.state}</Typography>
-                </Grid>
-                <Grid item xs={2}>
-                  <Typography>{order.total_price__number}</Typography>
-                </Grid>
-              </Grid>
-            </React.Fragment>
-          );
-        })}
-        <Grid item xs={12}>
-          <PayPalButton
-            amount={this.state.paymentTotal}
-            onSuccess={(details: any, data: any) => {
-              alert(`Transaction completed by ${details.payer.name.given_name}`);
-              console.log(data.orderID);
-              // OPTIONAL: Call your server to save the transaction
-              if (this.props.loginDetails) {
-                const passOrderIds: string = this.state.submitOrders.join();
+              </React.Fragment>
+            );
+          })}
+          <Grid item xs={12}>
+            <PayPalButton
+              amount={this.state.paymentTotal}
+              onSuccess={(details: any, data: any) => {
+                alert(`Transaction completed by ${details.payer.name.given_name}`);
+                console.log(data.orderID);
+                // OPTIONAL: Call your server to save the transaction
+                if (this.props.loginDetails) {
+                  const passOrderIds: string = this.state.submitOrders.join();
 
-                const body = {
-                  paypal_order_id: data.orderID,
-                  individual_order_ids: passOrderIds,
-                };
+                  const body = {
+                    paypal_order_id: data.orderID,
+                    individual_order_ids: passOrderIds,
+                  };
 
-                // Request products
-                APIModel.request(APIModel.requestAPI('/drupalup/bulk_orders', this.props.loginDetails, body))
-                  .promise.then((responseData: any) => {
-                    console.log(responseData);
-                  })
-                  .catch((error1: {}) => console.log(error1));
-              }
+                  // Request products
+                  APIModel.request(APIModel.requestAPI('/drupalup/bulk_orders', this.props.loginDetails, body))
+                    .promise.then((responseData: any) => {
+                      console.log(responseData);
+                    })
+                    .catch((error1: {}) => console.log(error1));
+                }
 
-              return fetch('/faq', {
-                method: 'post',
-                body: JSON.stringify({
-                  orderID: data.orderID,
-                }),
-              });
-            }}
-            onError={(error: any) => {
-              alert('please select an order');
-            }}
-          />
-        </Grid>
-      </React.Fragment>
-    );
+                return fetch('/faq', {
+                  method: 'post',
+                  body: JSON.stringify({
+                    orderID: data.orderID,
+                  }),
+                });
+              }}
+              onError={(error: any) => {
+                alert('please select an order');
+              }}
+            />
+          </Grid>
+        </React.Fragment>
+      );
+    }
+    return <div>loading</div>;
   }
 }
 

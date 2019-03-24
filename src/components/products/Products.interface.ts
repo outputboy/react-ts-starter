@@ -3,8 +3,8 @@
  */
 'use strict';
 
-import { RouteProps } from 'react-router';
-import { PagerData } from '../../utils/pager/Pager.interface';
+import { RouteComponentProps } from 'react-router';
+import { PagerProps } from '../../utils/pager/Pager.interface';
 import { CartDataInterface } from '.././cart/Cart.interface';
 import { LoginInterface } from '../login/Login.interface';
 
@@ -24,13 +24,13 @@ export interface ProductsDataInterface {
  */
 export interface ProductsFieldInterface {
   rows: ProductsDataInterface[];
-  pager: PagerData;
+  pager: PagerProps;
 }
 
 /**
  * Products properties interface.
  */
-export interface ProductsPropsInterface extends RouteProps {
+export interface ProductsPropsInterface extends RouteComponentProps {
   loginDetails?: LoginInterface;
 }
 
@@ -39,6 +39,7 @@ export interface ProductsPropsInterface extends RouteProps {
  */
 export interface ProductsStateInterface {
   productsFields: ProductsFieldInterface;
+  errors?: Error;
 }
 
 /**

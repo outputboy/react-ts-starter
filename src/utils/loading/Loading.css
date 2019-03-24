@@ -1,0 +1,59 @@
+/**
+ * Header.scss
+ * Sass styles for the header layout.
+ * 
+ */
+@keyframes placeHolderShimmer {
+  0% {
+    background-position: -1200px 0; }
+  100% {
+    background-position: 1200px 0; } }
+
+/**
+ * Placeholder svg we're referencing.
+ */
+/**
+ * Placeholder loading element.
+ */
+.loading {
+  text-align: center; }
+  .loading .loading-placeholder {
+    background: linear-gradient(to right, #dddddd 8%, #eeeeee 18%, #dddddd 33%);
+    height: 400px;
+    animation-duration: 2s;
+    animation-fill-mode: forwards;
+    animation-name: placeHolderShimmer;
+    animation-iteration-count: infinite;
+    animation-timing-function: linear; }
+    .loading .loading-placeholder.event-list {
+      height: 600px;
+      clip-path: url(#svg-event-list); }
+    .loading .loading-placeholder.header-image {
+      height: 350px;
+      clip-path: url(#svg-header-image); }
+    .loading .loading-placeholder.news-list {
+      height: 600px;
+      clip-path: url(#svg-news-list); }
+    .loading .loading-placeholder.top-menu {
+      height: 100px;
+      margin: 10px 0;
+      clip-path: url(#svg-top-menu); }
+    .loading .loading-placeholder.top-banner {
+      height: 90px;
+      margin: 14px auto;
+      width: 50%;
+      clip-path: url(#svg-top-banner); }
+    .loading .loading-placeholder.side-banner {
+      height: 300px;
+      clip-path: url(#svg-side-banner); }
+    .loading .loading-placeholder.side-menu {
+      height: 300px;
+      clip-path: url(#svg-side-menu); }
+    .loading .loading-placeholder.text {
+      height: 400px;
+      clip-path: url(#svg-text); }
+    .loading .loading-placeholder.pager {
+      height: 60px;
+      width: 70%;
+      margin: 14px auto;
+      clip-path: url(#svg-pager); }

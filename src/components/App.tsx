@@ -11,7 +11,6 @@ import { StyleRulesCallback, StyledComponentProps, WithStyles, withStyles } from
 import createHistory from 'history/createBrowserHistory';
 import React from 'react';
 import { connect } from 'react-redux';
-import { Switch } from 'react-router';
 import { Route, Router } from 'react-router-dom';
 
 // Import the dependent components

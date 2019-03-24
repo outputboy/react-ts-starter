@@ -2,7 +2,7 @@
  * Interfaces for the orders component.
  */
 'use strict';
-import { PagerData } from '../../utils/pager/Pager.interface';
+import { PagerProps } from '../../utils/pager/Pager.interface';
 import { LoginInterface } from '../login/Login.interface';
 
 /**
@@ -22,7 +22,7 @@ export interface OrdersDataInterface {
  */
 export interface OrdersFieldInterface {
   rows: Array<OrdersDataInterface>;
-  pager: PagerData;
+  pager: PagerProps;
 }
 
 /**

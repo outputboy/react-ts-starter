@@ -16,10 +16,11 @@ import Button from '@material-ui/core/Button';
 import Grid from '@material-ui/core/Grid';
 import Paper from '@material-ui/core/Paper';
 
+import Pager from '../../utils/pager/Pager';
+
 // Import the dependent components
 import ProductSingle from './ProductSingle';
 import ProductSearch from './ProductsSearch';
-const base64 = require('base-64');
 
 // Import the dependent interfaces
 import { ProductsDataInterface, ProductsPropsInterface, ProductsStateInterface } from './Products.interface';
@@ -35,18 +36,8 @@ class Products extends React.Component<ProductsPropsInterface, ProductsStateInte
   constructor(props: ProductsPropsInterface) {
     super(props);
 
-    this.state = {
-      productsFields: {
-        rows: [],
-        pager: {
-          current_page: 0,
-          items_per_page: 0,
-          total_items: '',
-          total_pages: 0,
-        },
-      },
-    };
     this.fetchProducts = this.fetchProducts.bind(this);
+    this.updateContent = this.updateContent.bind(this);
   }
 
   // Fetch products data
@@ -70,38 +61,52 @@ class Products extends React.Component<ProductsPropsInterface, ProductsStateInte
     }
   }
 
+  // Updates the request based on pager
+  updateContent(query: string) {
+    this.fetchProducts(`/products${query}`);
+  }
+
   // render all product card
   render() {
-    return (
-      <React.Fragment>
-        <Grid container spacing={24}>
-          <Grid item xs={12}>
-            <Paper>
-              <ProductSearch fetchProducts={this.fetchProducts} />
-            </Paper>
+    if (this.state) {
+      return (
+        <React.Fragment>
+          <Grid container spacing={24}>
+            <Grid item xs={12}>
+              <Paper>
+                <ProductSearch fetchProducts={this.fetchProducts} />
+              </Paper>
+            </Grid>
+            <Grid item xs={12}>
+              <Paper>
+                <Link to="/checkout" style={styles.linkStyles}>
+                  <Button variant="contained" color="primary" size="small" style={{ width: '100%' }}>
+                    {`Go to cart`}
+                  </Button>
+                </Link>
+              </Paper>
+            </Grid>
+            <Pager
+              {...this.state.productsFields.pager}
+              currentPath={this.props.location.search}
+              updateQuery={this.updateContent}
+            />
+            {this.state.productsFields.rows.map((product: ProductsDataInterface, key: number) => {
+              return (
+                <Grid item xs={12} md={6} lg={4} key={key}>
+                  <ProductSingle
+                    product={product}
+                    username={this.props.loginDetails ? this.props.loginDetails.username : ''}
+                  />
+                </Grid>
+              );
+            })}
           </Grid>
-          <Grid item xs={12}>
-            <Paper>
-              <Link to="/checkout" style={styles.linkStyles}>
-                <Button variant="contained" color="primary" size="small" style={{ width: '100%' }}>
-                  {`Go to cart`}
-                </Button>
-              </Link>
-            </Paper>
-          </Grid>
-          {this.state.productsFields.rows.map((product: ProductsDataInterface, key: number) => {
-            return (
-              <Grid item xs={12} md={6} lg={4} key={key}>
-                <ProductSingle
-                  product={product}
-                  username={this.props.loginDetails ? this.props.loginDetails.username : ''}
-                />
-              </Grid>
-            );
-          })}
-        </Grid>
-      </React.Fragment>
-    );
+        </React.Fragment>
+      );
+    }
+
+    return <div>loading</div>;
   }
 }
 
